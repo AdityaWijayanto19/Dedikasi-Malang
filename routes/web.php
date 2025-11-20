@@ -11,6 +11,24 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/kegiatan',function(){
+    return view('/pages/kegiatan');
+});
+Route::get('/cerita',function(){
+    return view('/pages/cerita');
+});
+Route::get('/kontak',function(){
+    return view('/pages/kontak');
+});
+Route::get('/donasi',function(){
+    return view('/pages/donasi');
+});
+Route::get('/detail kegiatan',function(){
+    return view('/pages/detailKegiatan');
+});
+Route::get('/artikel cerita',function(){
+    return view('pages/artikelCerita');
+});
 
 Route::get('/kegiatan/{kegiatan:slug}', [KegiatanController::class, 'show'])->name('kegiatan.show');
 Route::get('/cerita/{cerita:slug}', [KegiatanController::class, 'show'])->name('cerita.show');
