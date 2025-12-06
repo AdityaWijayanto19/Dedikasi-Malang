@@ -33,14 +33,18 @@
             <div class="absolute inset-0 bg-yellow-300/40"></div>
 
             <div class="flex relative z-10 text-center text-white justify-center items-center">
-                <img src="{{ asset('logo.png') }}" class="h-24 md:h-32 mx-auto mb-4" alt="Logo Dedikasi Malang">
+                <img src="{{ asset('logo.png') }}" class="h-24 md:h-64 mx-auto mb-4" alt="Logo Dedikasi Malang">
                 <h1
-                    class="text-4xl md:text-6xl leading-8 md:leading-12 font-extrabold text-shadow-md/40 text-shadow-black/50">
+                    class="text-4xl md:text-8xl leading-8 md:leading-20 font-extrabold text-shadow-md/40 text-shadow-black/50">
                     CERITA<br>DEDIKASI
                 </h1>
             </div>
         </section>
         <x-pengertian/>
+        <div
+            class="flex justify-center items-center -z-10  mt-10 fixed inset-0 bg-no-repeat bg-center bg-cover opacity-10 pointer-events-none">
+            <img src="/assets/logoDedikasi.png" alt="logo dedikasi" class="h-100 md:h-150">
+        </div>
         <x-ceritaSection />
         <x-footer/>
     </main>

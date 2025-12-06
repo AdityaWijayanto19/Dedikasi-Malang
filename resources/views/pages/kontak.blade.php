@@ -34,9 +34,9 @@
             <div class="absolute inset-0 bg-yellow-300/40"></div>
 
             <div class="flex relative z-10 text-center text-white justify-center items-center">
-                <img src="{{ asset('logo.png') }}" class="h-24 md:h-32 mx-auto mb-4" alt="Logo Dedikasi Malang">
+                <img src="{{ asset('logo.png') }}" class="h-24 md:h-64 mx-auto mb-4" alt="Logo Dedikasi Malang">
                 <h1
-                    class="text-4xl md:text-6xl leading-8 md:leading-12 font-extrabold text-shadow-md/40 text-shadow-black/50">
+                    class="text-4xl md:text-8xl leading-8 md:leading-20 font-extrabold text-shadow-md/40 text-shadow-black/50">
                     KONTAK<br>DEMA
                 </h1>
             </div>
@@ -46,13 +46,13 @@
 
         <div
             class="flex justify-center items-center -z-10  mt-10 fixed inset-0 bg-no-repeat bg-center bg-cover opacity-10 pointer-events-none">
-            <img src="/assets/logoDedikasi.png" alt="logo dedikasi" class="h-80">
+            <img src="/assets/logoDedikasi.png" alt="logo dedikasi" class="h-100 md:h-150">
         </div>
 
-        <Section class="px-15 mt-5">
+        <Section class="px-15 md:px-30 mt-5">
             <div class="flex flex-col justify-center items-center">
                 <hr class="border-0.5 border-gray-400 w-full mb-2">
-                <h1 class="font-bold text-md md:text-lg text-[#E9C153]">KONTAK DEDIKASI MALANG</h1>
+                <h1 class="font-bold text-md md:text-4xl text-[#E9C153]">KONTAK DEDIKASI MALANG</h1>
                 <hr class="border-0.5 border-gray-400 w-full mt-2 mb-5">
             </div>
             <div class="flex justify-center items-center">

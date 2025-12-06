@@ -29,6 +29,12 @@ Route::get('/detail kegiatan',function(){
 Route::get('/artikel cerita',function(){
     return view('pages/artikelCerita');
 });
+Route::get('/form pendaftaran',function(){
+    return view('/pages/formPendaftaran');
+});
+Route::get('/kirim cerita', function(){
+    return view('/pages/formKirimTulisan');
+});
 
 Route::get('/kegiatan/{kegiatan:slug}', [KegiatanController::class, 'show'])->name('kegiatan.show');
 Route::get('/cerita/{cerita:slug}', [KegiatanController::class, 'show'])->name('cerita.show');
