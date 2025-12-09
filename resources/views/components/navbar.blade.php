@@ -29,10 +29,9 @@
             </li>
 
             <li class="h-full flex items-center group relative">
-                <a href="/kegiatan" 
-                   class="relative text-lg font-normal transition-all duration-300 flex items-center gap-1
+                <a href="/kegiatan" class="relative text-lg font-normal transition-all duration-300 flex items-center gap-1
                    {{ request()->is('kegiatan*') ? 'text-white font-bold' : 'text-gray-800 hover:text-gray-600' }}">
-                    
+
                     Kegiatan
                     <svg class="w-4 h-4 stroke-2 transition-transform duration-300 group-hover:rotate-180" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +49,7 @@
                         @foreach ($kegiatan_batch as $batch)
                             <a href="{{ route('pages.kegiatan.show', $batch->slug) }}"
                                 class="block px-4 py-2 text-sm text-gray-800 hover:bg-[#E9C153] text-center hover:text-white transition-colors duration-150">
-                                {{ $batch->batch }} 
+                                {{ $batch->batch }}
                             </a>
                         @endforeach
                     @else
@@ -60,15 +59,35 @@
             </li>
 
             <li class="h-full flex items-center group relative">
-                <a href="/cerita" class="relative text-lg font-normal transition-all duration-300 flex items-center gap-1
-                   {{ request()->is('cerita*') ? 'text-white font-bold' : 'text-gray-800 hover:text-gray-600' }}">
+
+                <a href="{{ route('pages.cerita.index') }}" class="relative text-lg font-normal transition-all duration-300 flex items-center gap-1 
+                {{ request()->is('cerita*') ? 'text-white font-bold' : 'text-gray-800 hover:text-gray-600' }}">
                     Cerita Dedikasi
-                    <svg class="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                    <svg class="w-4 h-4 stroke-2 transition-transform duration-300 group-hover:rotate-180" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
                     </svg>
-                    <span
-                        class="absolute -bottom-2 left-0 w-full h-1 bg-white rounded-full transition-transform duration-300 {{ request()->is('cerita*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
+
+                    <span class="absolute -bottom-2 left-0 w-full h-1 bg-white rounded-full transition-transform duration-300 
+                    {{ request()->is('cerita*') ? 'scale-x-100' : 'scale-x-0' }}">
+                    </span>
                 </a>
+
+                <div class="absolute hidden group-hover:block w-56 bg-[#E9C153] shadow-xl rounded-sm -mt-4 top-full -left-10 
+                transition-all duration-300 z-50 overflow-hidden border border-[#E9C153]">
+
+                    @if (isset($cerita_batch) && count($cerita_batch) > 0)
+                        @foreach ($cerita_batch as $cerita)
+                            <a href="{{ route('pages.cerita.show', $cerita->slug) }}"
+                                class="block px-4 py-2 text-sm text-gray-800 hover:bg-[#E9C153] text-center hover:text-white transition-colors duration-150">
+                                {{ $cerita->title }}
+                            </a>
+                        @endforeach
+                    @else
+                        <span class="block px-4 py-1 text-sm text-gray-400">Tidak ada kategori cerita.</span>
+                    @endif
+                </div>
             </li>
 
             <li class="h-full flex items-center">
@@ -109,18 +128,20 @@
         <div class="flex flex-col px-6 py-4 space-y-4 text-base font-medium text-gray-800">
             <a href="/"
                 class="block border-l-4 pl-2 {{ request()->is('/') ? 'border-white font-bold text-gray-900' : 'border-transparent' }}">Beranda</a>
-            
+
             <div x-data="{ open: request()->is('kegiatan*') }" class="group">
                 <div @click="open = !open" class="flex justify-between items-center cursor-pointer border-l-4 pl-2 
                     {{ request()->is('kegiatan*') ? 'border-white font-bold text-gray-900' : 'border-transparent' }}">
                     <span>Kegiatan</span>
-                    <i :class="open ? 'fa-chevron-up' : 'fa-chevron-down'" class="fas text-xs transition-all duration-300"></i>
+                    <i :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"
+                        class="fas text-xs transition-all duration-300"></i>
                 </div>
-                
+
                 <div x-show="open" x-collapse.duration.300ms class="pl-6 pt-2 pb-1 space-y-1 bg-white/50">
                     @if (isset($kegiatan_batch) && count($kegiatan_batch) > 0)
                         @foreach ($kegiatan_batch as $batch)
-                            <a href="{{ route('pages.kegiatan.show', $batch->slug) }}" class="block text-sm text-gray-700 hover:text-[#E9C153]">
+                            <a href="{{ route('pages.kegiatan.show', $batch->slug) }}"
+                                class="block text-sm text-gray-700 hover:text-[#E9C153]">
                                 {{ $batch->batch }}
                             </a>
                         @endforeach
@@ -129,7 +150,7 @@
                     @endif
                 </div>
             </div>
-            
+
             <a href="/cerita"
                 class="block border-l-4 pl-2 {{ request()->is('cerita*') ? 'border-white font-bold text-gray-900' : 'border-transparent' }}">Cerita
                 Dedikasi</a>
@@ -141,7 +162,7 @@
     </div>
 </nav>
 
-<script src="//unpkg.com/alpinejs" defer></script> 
+<script src="//unpkg.com/alpinejs" defer></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
