@@ -10,6 +10,20 @@ use Illuminate\Validation\Rule;
 
 class CeritaController extends Controller
 {
+
+    public function publicIndex(){
+         $cerita = Cerita::latest()
+            ->get();
+
+        return view('pages.cerita.index', compact('cerita',));
+    }
+
+    public function publicShow($slug){
+         $cerita = Cerita::where('slug', $slug)->firstOrFail();
+
+        return view('pages.cerita.show', compact('cerita'));
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -17,6 +31,22 @@ class CeritaController extends Controller
     {
         $cerita = Cerita::latest()->paginate(5);
         return view('admin.cerita.index', compact('cerita'));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Cerita $cerita)
+    {
+        return view('admin.cerita.show', compact('cerita'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Cerita $cerita)
+    {
+        return view('admin.cerita.edit', compact('cerita'));
     }
 
     /**
@@ -80,22 +110,6 @@ class CeritaController extends Controller
 
             return back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data. Silahkan coba lagi. (' . $e->getMessage() . ')');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cerita $cerita)
-    {
-        return view('admin.cerita.show', compact('cerita'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cerita $cerita)
-    {
-        return view('admin.cerita.edit', compact('cerita'));
     }
 
     /**

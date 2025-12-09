@@ -207,7 +207,7 @@
             </div>
         </section>
 
-        <x-ceritaSection />
+        <x-ceritaSection :cerita="$cerita" />
         <x-galeri />
         <x-footer />
 

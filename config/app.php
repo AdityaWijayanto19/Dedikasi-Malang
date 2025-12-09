@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\ServiceProvider;
+
 return [
 
     /*
@@ -122,4 +124,11 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    // config/app.php
+
+    'providers' => ServiceProvider::defaultProviders()->merge([
+        // ... providers lainnya
+        App\Providers\NavigationComposerProvider::class, // <-- Tambahkan ini
+    ])->toArray(),
 ];

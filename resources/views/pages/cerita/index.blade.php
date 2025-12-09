@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cerita</title>
 
+    <link rel="shortcut icon" href="{{ asset('images/logo.svg') }}" type="image/x-icon">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,7 +47,7 @@
             class="flex justify-center items-center -z-10  mt-10 fixed inset-0 bg-no-repeat bg-center bg-cover opacity-10 pointer-events-none">
             <img src="/assets/logoDedikasi.png" alt="logo dedikasi" class="h-100 md:h-150">
         </div>
-        <x-ceritaSection />
+        <x-ceritaSection :cerita="$cerita"/>
         <x-footer/>
     </main>
 </body>

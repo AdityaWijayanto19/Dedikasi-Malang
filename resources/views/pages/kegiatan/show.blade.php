@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $kegiatan -> batch }}</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo.svg') }}" type="image/x-icon">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
