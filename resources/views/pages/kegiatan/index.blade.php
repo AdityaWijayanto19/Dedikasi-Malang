@@ -55,16 +55,32 @@
                 <hr class="border-0.5 border-gray-400 w-full mt-2 mb-5">
             </div>
             <div class="grid grid-cols-1 place-items-center md:flex justify-center items-center gap-4">
-                <x-pamflet poster="/assets/posterKegiatan.png" batch="BATCH 15"
-                    tema="PEMBERDAYAAN EKONOMI MELALUI PELATIHAN KETERAMPILAN MENJAHIT BAGI IBU-IBU DI DESA NGULINGAN, MALANG." />
-                <x-pamflet poster="/assets/posterKegiatan.png" batch="BATCH 16"
-                    tema="PEMBERDAYAAN EKONOMI MELALUI PELATIHAN KETERAMPILAN MENJAHIT BAGI IBU-IBU DI DESA NGULINGAN, MALANG." />
-                <x-pamflet poster="/assets/posterKegiatan.png" batch="BATCH 17"
-                    tema="PEMBERDAYAAN EKONOMI MELALUI PELATIHAN KETERAMPILAN MENJAHIT BAGI IBU-IBU DI DESA NGULINGAN, MALANG." />
+
+                @if($newKegiatan->count())
+
+                @foreach ($newKegiatan as $item)
+                    <a href="{{ route('pages.kegiatan.show', $item->slug) }}">
+                        <div
+                            class="flex flex-col justify-center items-center h-fit w-60 hover:-translate-y-1 cursor-pointer duration-200 mb-2">
+
+                            <img class="h-70 w-fit rounded-md hover:shadow-xl" src="{{ Str::startsWith($item->gambar, 'http') ? $item->gambar : asset('storage/' . $item->gambar) }}"
+                                alt="poster kegiatan">
+
+                            <h1 class="font-semibold text-xl text-neutral-800">
+                                {{ strtoupper($item->batch) }}
+                            </h1>
+
+                            <h2 class="text-sm font-thin text-neutral-600 text-center">
+                                {{ $item->tema }}
+                            </h2>
+                        </div>
+                    </a>
+                @endforeach
+                @endif
             </div>
         </section>
         <x-persyaratan />
-        <x-roadMap />
+        <x-roadMap :kegiatan="$kegiatan" />
         <x-galeri />
         <x-footer />
 

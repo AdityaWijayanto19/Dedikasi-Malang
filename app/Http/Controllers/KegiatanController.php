@@ -13,8 +13,39 @@ use Illuminate\Validation\Rule;
 
 class KegiatanController extends Controller
 {
+    public function publicIndex()
+    {
+           $newKegiatan = $this->getNewData();
+
+        $kegiatan = Kegiatan::where('status', StatusPostingan::Publish)
+            ->latest()
+            ->get();
+
+        return view('pages.kegiatan.index', compact('kegiatan', 'newKegiatan'));
+    }
+
+
+    private function getNewData()
+    {
+        return Kegiatan::where('status', StatusPostingan::Publish)
+            ->latest()
+            ->take(3)
+            ->get();
+    }
+
+    public function publicShow($slug)
+    {
+        $kegiatan = Kegiatan::where('slug', $slug)->firstOrFail();
+
+        if ($kegiatan->status !== StatusPostingan::Publish) {
+            abort(404);
+        }
+
+        return view('pages.kegiatan.show', compact('kegiatan'));
+    }
+
     /**
-     * Menampilkan semua data di kegiatan.index.
+     * Menampilkan semua data di admin.kegiatan.index.
      */
     public function index()
     {
@@ -22,13 +53,8 @@ class KegiatanController extends Controller
         return view('admin.kegiatan.index', compact('kegiatan'));
     }
 
-    public function show(Kegiatan $kegiatan)
-    {
-        return view('kegiatan.show', compact('kegiatan'));
-    }
-
     /**
-     * Tampilkan halaman dari kegiatan.create.
+     * Tampilkan halaman dari admin.kegiatan.create.
      */
     public function create()
     {

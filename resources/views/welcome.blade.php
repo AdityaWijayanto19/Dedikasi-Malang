@@ -175,7 +175,7 @@
             </div>
         </section>
 
-        <x-roadMap />
+        <x-roadMap :kegiatan="$kegiatan"/>
 
         <section class="px-15 md:px-30 z-40 mt-5" id="DaftarKegiatan">
             <div class="flex flex-col justify-center items-center">

@@ -4,16 +4,16 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CeritaController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\DonasiController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/kegiatan',function(){
-    return view('/pages/kegiatan');
-});
+Route::get('/', [LandingPageController::class, 'index']);
+
+Route::get('/kegiatan', [KegiatanController::class, 'publicIndex'])->name('pages.kegiatan.index');
+Route::get('/kegiatan/{kegiatan:slug}', [KegiatanController::class, 'PublicShow'])->name('pages.kegiatan.show');
+
 Route::get('/cerita',function(){
     return view('/pages/cerita');
 });
@@ -22,9 +22,6 @@ Route::get('/kontak',function(){
 });
 Route::get('/donasi',function(){
     return view('/pages/donasi');
-});
-Route::get('/detail kegiatan',function(){
-    return view('/pages/detailKegiatan');
 });
 Route::get('/artikel cerita',function(){
     return view('pages/artikelCerita');
@@ -36,7 +33,6 @@ Route::get('/kirim cerita', function(){
     return view('/pages/formKirimTulisan');
 });
 
-Route::get('/kegiatan/{kegiatan:slug}', [KegiatanController::class, 'show'])->name('kegiatan.show');
 Route::get('/cerita/{cerita:slug}', [KegiatanController::class, 'show'])->name('cerita.show');
 Route::get('/donasi/{donasi:slug}', [KegiatanController::class, 'show'])->name('donasi.show');
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dedikasi Malang - Welcome</title>
+    <title>{{ $kegiatan -> batch }}</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,8 +35,9 @@
             <div class="flex relative z-10 text-start text-white justify-center items-center">
                 <img src="{{ asset('logo.png') }}" class="h-24 md:h-64 mx-auto mb-4" alt="Logo Dedikasi Malang">
                 <h1
+                style="text-transform:uppercase"
                     class="text-4xl md:text-8xl leading-8 md:leading-20 font-extrabold text-shadow-md/40 text-shadow-black/50">
-                    DETAIL<br>KEGIATAN
+                    {{  $kegiatan -> batch }}
                 </h1>
             </div>
         </section>
@@ -50,30 +51,15 @@
             <div class="grid grid-cols-1 place-items-center md:flex md:justify-center gap-4">
                 <div
                     class="flex flex-col justify-center items-center h-fit w-60 md:w-100 hover:-translate-y-1 cursor-pointer duration-200">
-                    <img class="h-70 md:h-100 w-fit rounded-md hover:shadow-xl" src="assets/posterKegiatan.png"
+                    <img class="h-70 md:h-100 w-fit rounded-md hover:shadow-xl"
+                        src="{{ Str::startsWith($kegiatan->gambar, 'http') ? $kegiatan->gambar : asset('storage/' . $kegiatan->gambar)}}"
                         alt="poster kegiatan">
-                    <h1 class="font-medium text-xl text-neutral-800">DEDIKASI BACTH 17</h1>
+                    <h1 class="font-medium text-xl text-neutral-800">{{ $kegiatan -> batch }}</h1>
                 </div>
                 <div class="h-fit w-60 md:w-150">
-                    <h1 class="text-center md:text-start text-xl font-bold">Swargaloka Arunika: Langkah Bersama Cipta
-                        Perubahan, Tumbuh dan Berdaya di Pesisir
-                        Selatan</h1>
+                    <h1 class="text-center md:text-start text-xl font-bold">{{ $kegiatan -> title }}</h1>
                     <p class="text-justify mt-5">
-                        Langkah baru, cerita baru, dan keluarga baru siap tercipta di Batch 17.
-                        Dengan tema “Swargaloka Arunika: Langkah Bersama Cipta Perubahan, Tumbuh dan Berdaya di Pesisir
-                        Selatan”, para volunteer akan terjun langsung ke Dusun Tambakrejo, Sumbermanjing Wetan, Malang
-                        untuk
-                        membawa perubahan yang nyata.
-                        <br /><br />
-                        Selama 4 hari, kami akan fokus pada:<br />
-                        ✨ Peningkatan literasi kesehatan<br />
-                        ✨ Edukasi lingkungan dan konservasi<br />
-                        ✨ Workshop kreatif & pengembangan UMKM<br />
-                        ✨ Aksi nyata untuk masyarakat pesisir<br />
-                        <br />
-                        Batch 17 bukan hanya tentang mengabdi tapi tentang tumbuh bersama, belajar bersama, dan
-                        meninggalkan
-                        jejak kebaikan yang berdampak.
+                        {{ $kegiatan -> deskripsi }}
                     </p>
                 </div>
             </div>
@@ -81,18 +67,18 @@
         <section class="px-15 md:px-30 mt-5">
             <hr class="border-0.5 border-gray-400 w-full mb-5">
             <div class="grid grid-cols-1 md:grid-cols-2 place-items-center gap-4 mt-4">
-                <a href="https://drive.google.com/drive/folders/1htKNBxDCBhSO49geZBXSQlIZi1K-T3g_"
-                    target="_blank"
-                    class="flex justify-center p-1 w-full text-white text-shadow-md font-semibold text-sm md:text-lg bg-[#FFE26F] rounded-sm hover:bg-[#ffdb49] hover:shadow-md hover:scale-101 duration-200">GUIDE BOOK
+                <a href="https://drive.google.com/drive/folders/1htKNBxDCBhSO49geZBXSQlIZi1K-T3g_" target="_blank"
+                    class="flex justify-center p-1 w-full text-white text-shadow-md font-semibold text-sm md:text-lg bg-[#FFE26F] rounded-sm hover:bg-[#ffdb49] hover:shadow-md hover:scale-101 duration-200">GUIDE
+                    BOOK
                 </a>
-                <a href="/form pendaftaran"
-                    target="_blank"
-                    class="flex justify-center p-1 w-full text-white text-shadow-md font-semibold text-sm md:text-lg bg-[#FFE26F] rounded-sm hover:bg-[#ffdb49] hover:shadow-md hover:scale-101 duration-200">DAFTAR SEKARANG
+                <a href="/form pendaftaran" target="_blank"
+                    class="flex justify-center p-1 w-full text-white text-shadow-md font-semibold text-sm md:text-lg bg-[#FFE26F] rounded-sm hover:bg-[#ffdb49] hover:shadow-md hover:scale-101 duration-200">DAFTAR
+                    SEKARANG
                 </a>
             </div>
         </section>
-        <x-persyaratan/>
-        <x-footer/>
+        <x-persyaratan />
+        <x-footer />
     </main>
 </body>
 
