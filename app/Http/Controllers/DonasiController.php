@@ -12,6 +12,16 @@ use Illuminate\Validation\Rules\Enum;
 
 class DonasiController extends Controller
 {
+
+    public function publicIndex()
+    {
+        $donasi = Donasi::where('status', StatusPostingan::Publish)
+            ->latest()
+            ->get();
+
+        return view('pages.donasi', compact('donasi'));
+    }
+    
     /**
      * Display a listing of the resource.
      */

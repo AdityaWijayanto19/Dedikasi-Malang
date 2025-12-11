@@ -7,6 +7,7 @@ use App\Http\Controllers\DonasiController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Donasi;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingPageController::class, 'indexKegiatan']);
@@ -17,12 +18,13 @@ Route::get('/kegiatan/{kegiatan:slug}', [KegiatanController::class, 'PublicShow'
 Route::get('/cerita', [CeritaController::class, 'publicIndex'])->name('pages.cerita.index');
 Route::get('/cerita/{cerita:slug}', [CeritaController::class, 'publicShow'])->name('pages.cerita.show');
 
+Route::get('/donasi', [DonasiController::class, 'publicIndex'])->name('pages.donasi');
+
 Route::get('/kontak',function(){
     return view('/pages/kontak');
 });
-Route::get('/donasi',function(){
-    return view('/pages/donasi');
-});
+
+
 
 Route::get('/form pendaftaran',function(){
     return view('/pages/formPendaftaran');
