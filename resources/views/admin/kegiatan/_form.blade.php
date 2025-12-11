@@ -104,7 +104,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                    <label for="status" class="block text-sm font-medium text-gray-700">Status Postingan</label>
                     <select id="status" name="status"
                         class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3 focus:border-primary-yellow focus:ring focus:ring-primary-yellow/50 transition duration-150">
                         @php
@@ -126,6 +126,33 @@
                         value="{{ old('link_dokumentasi', $isEdit ? $kegiatan->link_dokumentasi : '') }}"
                         class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3 focus:border-primary-yellow focus:ring focus:ring-primary-yellow/50 transition duration-150"
                         placeholder="https://docs.google.com/document/d/example">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700">Status Pendaftaran</label>
+                    <select id="is_open_for_registration" name="is_open_for_registration"
+                        class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3 focus:border-primary-yellow focus:ring focus:ring-primary-yellow/50 transition duration-150">
+                        @php
+                            $currentStatusValue = old('is_open_for_registration', $isEdit ? $kegiatan->is_open_for_registration->value : null);
+                        @endphp
+                        <option value="0" @selected((int) $currentStatusValue === 0)>Tutup</option>
+                        <option value="1" @selected((int) $currentStatusValue === 1)>Buka</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="link" class="block text-sm font-medium text-gray-700">Link Join Group WhatsApp
+                        <x-tooltip>
+                            <p class="mb-2">Harap perhatikan <strong>kebenaran url</strong> yang anda masukkan.
+                            </p>
+                        </x-tooltip>
+                    </label>
+                    <input type="text" name="link_whatsapp_group" id="link_whatsapp_group"
+                        value="{{ old('link_whatsapp_group', $isEdit ? $kegiatan->link_whatsapp_group : '') }}"
+                        class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3 focus:border-primary-yellow focus:ring focus:ring-primary-yellow/50 transition duration-150"
+                        placeholder="chat.whatsapp.com">
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PendaftaranStatus;
 use App\Enums\StatusPostingan;
 use App\Models\Kegiatan;
 
@@ -15,7 +16,7 @@ class KegiatanController extends Controller
 {
     public function publicIndex()
     {
-           $newKegiatan = $this->getNewData();
+        $newKegiatan = $this->getNewData();
 
         $kegiatan = Kegiatan::where('status', StatusPostingan::Publish)
             ->latest()
@@ -61,7 +62,7 @@ class KegiatanController extends Controller
         return view('admin.kegiatan.create');
     }
 
-    /**
+    /** 
      * Proses pembuatan manipulasi tambah data.
      */
     public function store(Request $request)
@@ -76,6 +77,8 @@ class KegiatanController extends Controller
                 'lokasi' => 'required|max:255',
                 'link_dokumentasi' => 'required|max:255',
                 'status' => ['required', new Enum(StatusPostingan::class)],
+                'link_whatsapp_group' => 'nullable|max:255',
+                'is_open_for_registration' => ['required', new Enum(PendaftaranStatus::class)],
             ],
             [
                 'batch.unique' => 'Batch kegiatan sudah ada, silakan gunakan Batch lain.',
@@ -137,6 +140,8 @@ class KegiatanController extends Controller
                 'lokasi' => 'required|max:255',
                 'link_dokumentasi' => 'nullable|max:255',
                 'status' => ['required', new Enum(StatusPostingan::class)],
+                'link_whatsapp_group' => 'nullable|max:255',
+                'is_open_for_registration' => ['required', new Enum(PendaftaranStatus::class)],
             ],
             [
                 'batch.unique' => 'Judul batch sudah ada, silakan gunakan batch lain.',

@@ -72,7 +72,7 @@
                     class="flex justify-center p-1 w-full text-white text-shadow-md font-semibold text-sm md:text-lg bg-[#FFE26F] rounded-sm hover:bg-[#ffdb49] hover:shadow-md hover:scale-101 duration-200">GUIDE
                     BOOK
                 </a>
-                <a href="/form pendaftaran" target="_blank"
+                <a href="{{ route('pages.pendaftaran.create', $kegiatan) }}" target="_blank"
                     class="flex justify-center p-1 w-full text-white text-shadow-md font-semibold text-sm md:text-lg bg-[#FFE26F] rounded-sm hover:bg-[#ffdb49] hover:shadow-md hover:scale-101 duration-200">DAFTAR
                     SEKARANG
                 </a>
