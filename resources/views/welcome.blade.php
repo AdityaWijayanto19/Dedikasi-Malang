@@ -102,32 +102,12 @@
                 <hr class="border-0.5 border-gray-400 w-full mt-2 mb-5">
             </div>
             <div class="grid grid-cols-2 gap-2 md:grid-cols-5 place-items-center px-2" id="web">
-                <x-teamCard foto="pengurus/program.png" role="Project Planner" name="ROBERTO MARTHA K"
-                    link="https://www.instagram.com/roobertomk_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" />
-                <x-teamCard foto="pengurus/bndhr.png" role="Bendahara" name="SHOFYYAH FITHRI"
-                    link="https://www.instagram.com/sofyaa.__?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" />
-                <x-teamCard foto="pengurus/leader.png" role="Leader" name="MOHAMMAD DAVID N.S"
-                    link="https://www.instagram.com/davv_id._?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" />
-                <x-teamCard foto="pengurus/prhr.png" role="Public Relation" name="SALMA AYUNDA"
-                    link="https://www.instagram.com/salmaynd?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" />
-                <x-teamCard foto="pengurus/media.png" role="Media Creative" name="FATA ALFAN MA’ARUFI"
-                    link="https://www.instagram.com/fatlfanz?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" />
+                <x-teamCard :pengurus="$pengurus"/>
             </div>
 
             <div class="md:hidden grid grid-cols-2 gap-2 md:grid-cols-5 place-items-center px-2" id="mobile">
-                <x-teamCard foto="pengurus/leader.png" role="Leader" name="MOHAMMAD DAVID NUR S"
-                    link="https://www.instagram.com/davv_id._?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" />
-                <x-teamCard foto="pengurus/bndhr.png" role="Bendahara" name="SHOFYYAH FITHRI"
-                    link="https://www.instagram.com/sofyaa.__?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" />
-                <x-teamCard foto="pengurus/program.png" role="Project Planner" name="ROBERTO MARTHA K"
-                    link="https://www.instagram.com/roobertomk_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" />
-                <x-teamCard foto="pengurus/prhr.png" role="Public Relation" name="SALMA AYUNDA"
-                    link="https://www.instagram.com/salmaynd?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" />
-                <div class="col-span-2">
-                    <x-teamCard foto="pengurus/media.png" role="Media Creative" name="FATA ALFAN MA’ARUFI"
-                        link="https://www.instagram.com/fatlfanz?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" />
+                <x-teamCard :pengurus="$pengurus"/>
                 </div>
-
             </div>
         </section>
 

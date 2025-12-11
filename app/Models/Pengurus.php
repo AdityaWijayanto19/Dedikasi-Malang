@@ -11,5 +11,6 @@ class Pengurus extends Model
         'jabatan',
         'gambar',
         'periode',
+        'link_instagram',
     ];
 }

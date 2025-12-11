@@ -11,14 +11,14 @@
 
     <div class="bg-white rounded-lg shadow-md p-8">
         <div class="space-y-6">
-            <div>
-                <label for="judul" class="block text-sm font-medium text-gray-700">Nama</label>
-                <input type="text" name="nama" id="nama" value="{{ old('nama', $isEdit ? $pengurus->nama : '') }}"
-                    class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3 focus:border-primary-yellow focus:ring focus:ring-primary-yellow/50 transition duration-150"
-                    placeholder="Contoh: Dimas Bagus Nugraha">
-            </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="judul" class="block text-sm font-medium text-gray-700">Nama</label>
+                    <input type="text" name="nama" id="nama" value="{{ old('nama', $isEdit ? $pengurus->nama : '') }}"
+                        class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3 focus:border-primary-yellow focus:ring focus:ring-primary-yellow/50 transition duration-150"
+                        placeholder="Contoh: Dimas Bagus Nugraha">
+                </div>
+
                 <div>
                     <label for="judul" class="block text-sm font-medium text-gray-700">Jabatan</label>
                     <input type="text" name="jabatan" id="jabatan"
@@ -26,7 +26,9 @@
                         class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3 focus:border-primary-yellow focus:ring focus:ring-primary-yellow/50 transition duration-150"
                         placeholder="Contoh: Sekretaris">
                 </div>
+            </div>
 
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label for="judul" class="block text-sm font-medium text-gray-700">Periode</label>
                     <input type="text" name="periode" id="periode"
@@ -34,11 +36,18 @@
                         class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3 focus:border-primary-yellow focus:ring focus:ring-primary-yellow/50 transition duration-150"
                         placeholder="Contoh: 2024 - 2025">
                 </div>
+
+                <div>
+                    <label for="judul" class="block text-sm font-medium text-gray-700">Link Instagram</label>
+                    <input type="text" name="link_instagram" id="link_instagram" value="{{ old('link_instagram', $isEdit ? $pengurus->link_instagram : '') }}"
+                        class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3 focus:border-primary-yellow focus:ring focus:ring-primary-yellow/50 transition duration-150"
+                        placeholder="Contoh: https://instagram.com/username">
+                </div>
             </div>
 
             <div>
                 <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-1">
-                    Upload avatar Utama
+                    Upload gambar Utama
                     <x-tooltip>
                         <p class="mb-2">Gunakan gambar rasio <strong>16:9</strong> dan ukuran maksimal
                             <strong>2MB</strong>.
@@ -49,10 +58,10 @@
                     class="file-drop-area relative w-full h-64 border-2 border-gray-300 border-dashed rounded-md transition hover:border-yellow-400">
 
                     <div id="preview-container"
-                        class="absolute inset-0 p-2 @unless($isEdit && $pengurus->avatar) hidden @endunless">
-                        @if ($isEdit && $pengurus->avatar)
+                        class="absolute inset-0 p-2 @unless($isEdit && $pengurus->gambar) hidden @endunless">
+                        @if ($isEdit && $pengurus->gambar)
                             @php
-                                $imageUrl = Str::startsWith($pengurus->avatar, 'http') ? $pengurus->avatar : asset('storage/' . $pengurus->avatar);
+                                $imageUrl = Str::startsWith($pengurus->gambar, 'http') ? $pengurus->gambar : asset('storage/' . $pengurus->gambar);
                             @endphp
                             <img id="image-preview" src="{{ $imageUrl }}" class="w-full h-full object-contain rounded-lg"
                                 alt="Image Preview">
@@ -63,7 +72,7 @@
                     </div>
 
                     <div id="upload-prompt"
-                        class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 @if(isset($pengurus) && $pengurus->avatar) opacity-0 hover:opacity-100 bg-black/50 text-white transition-opacity @endif">
+                        class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 @if(isset($pengurus) && $pengurus->gambar) opacity-0 hover:opacity-100 bg-black/50 text-white transition-opacity @endif">
                         <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
                             viewBox="0 0 48 48" aria-hidden="true">
                             <path
@@ -76,11 +85,11 @@
                         <p class="text-xs text-blue-light">PNG, JPG, GIF, WEBP (maks. 2MB)</p>
                     </div>
 
-                    <input type="file" id="avatar" name="avatar"
+                    <input type="file" id="gambar" name="gambar"
                         class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                 </div>
 
-                @error('avatar')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                @error('gambar')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
         </div>
 
@@ -101,7 +110,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const dropArea = document.getElementById('file-drop-area');
-            const fileInput = document.getElementById('avatar');
+            const fileInput = document.getElementById('gambar');
             const previewContainer = document.getElementById('preview-container');
             const imagePreview = document.getElementById('image-preview');
             const uploadPrompt = document.getElementById('upload-prompt');

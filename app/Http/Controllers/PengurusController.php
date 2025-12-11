@@ -13,6 +13,7 @@ class PengurusController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         $pengurus = Pengurus::latest()->paginate(4);
@@ -38,6 +39,7 @@ class PengurusController extends Controller
                 'jabatan' => 'required|max:255',
                 'gambar' => 'required|file|mimes:jpeg,jpg,png,svg|max:2048',
                 'periode' => 'required|max:255',
+                'link_instagram' => 'nullable|max:255',
             ],
             [
                 'nama.required' => 'Nama pengurus wajib diisi',
@@ -96,11 +98,13 @@ class PengurusController extends Controller
                 'jabatan' => 'required|max:255',
                 'gambar' => 'nullable|file|mimes:jpeg,jpg,png,svg|max:2048',
                 'periode' => 'required|max:255',
+                'link_instagram' => 'required|max:255',
             ],
             [
                 'nama.required' => 'Nama pengurus wajib diisi',
                 'jabatan.required' => 'Jabatan pengurus wajib diisi',
                 'periode.required' => 'Periode pengurus wajib diisi',
+                'link_instagram.required' => 'Periode pengurus wajib diisi',
             ]
         );
 
