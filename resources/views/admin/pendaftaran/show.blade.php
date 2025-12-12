@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Pendaftar {{ $kegiatan->title }} - Dedikasi Malang')
+@section('title', 'Pendaftar - Dedikasi Malang')
 
 @section('header')
     <div class="px-6 py-3 flex items-center shadow-sm rounded-lg">
