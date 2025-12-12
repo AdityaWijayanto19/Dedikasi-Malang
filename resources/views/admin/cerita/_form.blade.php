@@ -108,6 +108,7 @@
                 Simpan Cerita
             </button>
         </div>
+        
     </div>
 </form>
 
@@ -181,7 +182,7 @@
             content_css: 'default',
             content_style: `
                                                                                         ::selection {
-                                                                                            background-color: #FEEA6E !important; 
+                                                                                          background-color: #FEEA6E !important; 
                                                                                             color: #1f2937 !important;           
                                                                                         }
                                                                                         ::-moz-selection {

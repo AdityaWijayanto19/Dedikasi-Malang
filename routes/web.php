@@ -8,13 +8,20 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GlobalSearchController;
 use App\Models\Donasi;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/search', [GlobalSearchController::class, 'index'])->name('search.index');
+// Route::get('/api/search/global', App\Http\Controllers\GlobalSearchController::class)->name('api.search.global');
 
 Route::get('/', [LandingPageController::class, 'indexKegiatan']);
 
 Route::get('/kegiatan', [KegiatanController::class, 'publicIndex'])->name('pages.kegiatan.index');
 Route::get('/kegiatan/{kegiatan:slug}', [KegiatanController::class, 'PublicShow'])->name('pages.kegiatan.show');
+
+Route::get('/cerita/formulir-cerita', [CeritaController::class, 'publicCreate'])->name('pages.cerita.create');
+Route::post('/cerita/formulir-cerita', [CeritaController::class, 'publicStore'])->name('pages.cerita.store');
 
 Route::get('/cerita', [CeritaController::class, 'publicIndex'])->name('pages.cerita.index');
 Route::get('/cerita/{cerita:slug}', [CeritaController::class, 'publicShow'])->name('pages.cerita.show');
@@ -24,17 +31,14 @@ Route::get('/donasi', [DonasiController::class, 'publicIndex'])->name('pages.don
 Route::get('/kegiatan/{kegiatan:slug}/formulir-pendaftaran', [PendaftaranController::class, 'create'])->name('pages.pendaftaran.create');
 Route::post('/kegiatan/{kegiatan}/formulir-pendaftaran', [PendaftaranController::class, 'store'])->name('pages.pendaftaran.store');
 Route::get('/kegiatan/{kegiatan:slug}/pendaftaran-sukses', [PendaftaranController::class, 'successPage'])
-     ->name('pendaftaran.success');
+    ->name('pendaftaran.success');
 
 Route::get('/kontak', function () {
     return view('/pages/kontak');
 });
 
-Route::get('/kirim cerita', function () {
-    return view('/pages/formKirimTulisan');
-});
 
-Route::get('/donasi/{donasi:slug}', [KegiatanController::class, 'show'])->name('donasi.show');
+Route::get('/donasi/{donasi:slug}', [DonasiController::class, 'publicIndex'])->name('donasi.show');
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/kegiatan/search', [KegiatanController::class, 'search'])->name('kegiatan.search');
@@ -84,5 +88,3 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
-
-// cara menghapus cache windows r -> prefetch, temp, %temp%

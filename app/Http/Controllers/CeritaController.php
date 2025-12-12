@@ -57,9 +57,60 @@ class CeritaController extends Controller
         return view('admin.cerita.create');
     }
 
+    public function publicCreate()
+    {
+        return view('pages.cerita.create');
+    }
+
     /**
      * Store a newly created resource in storage.
-     */
+    */
+    public function publicStore(Request $request)
+    {
+        $validatedData = $request->validate(
+            [
+                'title' => 'required|max:255|unique:ceritas,title',
+                'deskripsi' => 'required|string',
+                'gambar' => 'required|file|mimes:jpeg,jpg,png,svg|max:2048',
+                'nama_penulis' => 'required|max:255',
+                'jabatan' => 'required|max:255',
+            ],
+            [
+                'title.unique' => 'Judul cerita sudah ada, silakan gunakan judul lain.',
+                'title.required' => 'Judul cerita wajib diisi.',
+                'gambar.required' => 'Gambar cerita wajib diisi.',
+                'deskripsi.required' => 'Deskripsi cerita wajib diisi.',
+                'nama_penulis.required' => 'Nama Penulis cerita wajib diisi.',
+                'jabatan.required' => 'Jabatan cerita wajib diisi.',
+            ]
+        );
+
+        $path = null;
+
+        try {
+            $validatedData['slug'] = generateUniqueSlug($validatedData['title']);
+
+            $validatedData['deskripsi'] = clean($request->input('deskripsi'));
+
+            if ($request->hasFile('gambar')) {
+                $path = $request->file('gambar')->store('cerita', 'public');
+                $validatedData['gambar'] = $path;
+            }
+
+            Cerita::create($validatedData);
+
+            return redirect()->route('pages.cerita.index')->with('success', 'Data cerita berhasil ditambahkan!');
+        } catch (\Throwable $e) {
+            if ($path) {
+                Storage::disk('public')->delete($path);
+            }
+
+            Log::error('GAGAL MENYIMPAN CERITA: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+
+            return back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data. Silahkan coba lagi. (' . $e->getMessage() . ')');
+        }
+    }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate(

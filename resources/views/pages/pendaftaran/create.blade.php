@@ -216,6 +216,88 @@
             </form>
         </section>
     </main>
+
+    <script>
+        // Setup file upload functionality untuk ketiga input
+        const fileConfigs = [
+            { dropAreaId: 'file-drop-area-tiktok', inputId: 'bukti_follow_tiktok', previewContainerId: 'preview-container-tiktok', imagePreviewId: 'image-preview-tiktok', uploadPromptId: 'upload-prompt-tiktok' },
+            { dropAreaId: 'file-drop-area-instagram', inputId: 'bukti_follow_instagram', previewContainerId: 'preview-container-instagram', imagePreviewId: 'image-preview-instagram', uploadPromptId: 'upload-prompt-instagram' },
+            { dropAreaId: 'file-drop-area-pembayaran', inputId: 'bukti_pembayaran', previewContainerId: 'preview-container-pembayaran', imagePreviewId: 'image-preview-pembayaran', uploadPromptId: 'upload-prompt-pembayaran' }
+        ];
+
+        fileConfigs.forEach(config => {
+            const dropArea = document.getElementById(config.dropAreaId);
+            const fileInput = document.getElementById(config.inputId);
+            const previewContainer = document.getElementById(config.previewContainerId);
+            const imagePreview = document.getElementById(config.imagePreviewId);
+            const uploadPrompt = document.getElementById(config.uploadPromptId);
+
+            function showPreview(file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                    uploadPrompt.classList.add('opacity-0', 'hover:opacity-100', 'bg-black/50', 'text-white');
+                }
+                reader.readAsDataURL(file);
+            }
+
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    showPreview(fileInput.files[0]);
+                }
+            });
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, () => {
+                    dropArea.classList.add('border-blue-500', 'bg-blue-50');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, () => {
+                    dropArea.classList.remove('border-blue-500', 'bg-blue-50');
+                }, false);
+            });
+
+            dropArea.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+
+                if (files.length > 0) {
+                    const file = files[0];
+                    
+                    // Validate file type
+                    const validTypes = config.inputId === 'bukti_pembayaran' 
+                        ? ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'application/pdf']
+                        : ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                    
+                    const validSize = file.size <= 2 * 1024 * 1024; // 2MB
+
+                    if (!validTypes.includes(file.type)) {
+                        alert('Format file tidak didukung. Gunakan: ' + (config.inputId === 'bukti_pembayaran' ? 'PNG, JPG, GIF, PDF' : 'PNG, JPG, GIF'));
+                        return;
+                    }
+
+                    if (!validSize) {
+                        alert('Ukuran file terlalu besar. Maksimal 2MB');
+                        return;
+                    }
+
+                    // Set file to input and show preview
+                    fileInput.files = files;
+                    showPreview(file);
+                }
+            }, false);
+        });
+    </script>
 </body>
 
         </html>
