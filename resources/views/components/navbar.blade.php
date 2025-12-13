@@ -1,7 +1,6 @@
 <nav x-data="{ searchActive: false }" @keydown.escape.window="searchActive = false" id="main-nav"
     class="w-full fixed top-0 z-50 font-sans transition-transform duration-300 ease-in-out">
 
-    {{-- TOP BAR --}}
     <div id="top-bar" class="flex justify-center items-center py-2 bg-[#E9C153] transition-opacity duration-300">
         <a href="/kegiatan"
             class="text-base font-medium text-white border border-white rounded px-6 py-1 hover:bg-white hover:text-[#E9C153] transition-all duration-200">
@@ -19,7 +18,6 @@
             </p>
         </a>
 
-        {{-- Desktop Navigation --}}
         <ul class="hidden md:flex items-center gap-8 h-full">
 
             <li class="h-full flex items-center">
@@ -121,22 +119,18 @@
             </li>
         </ul>
 
-        {{-- Mobile Menu Toggle (Tidak ada perubahan) --}}
         <button id="nav-toggle" class="md:hidden text-3xl text-gray-800 flex items-center">
             ☰
         </button>
     </div>
 
-
-    {{-- Search Bar Panel --}}
     <div x-show="searchActive" @click.away="searchActive = false"
         x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="translate-x-full"
         x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-200 transform"
         x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
-        class="fixed top-[56px] left-0 h-20 w-full bg-gray-50 flex flex-col items-center justify-center z-50"
+        class="fixed top-[49px] left-0 h-20 w-full bg-gray-50 flex flex-col items-center justify-center z-50"
         style="display: none;">
 
-        {{-- Tombol Kembali --}}
         <button @click="searchActive = false"
             class="absolute top-1/2 -translate-y-1/2 left-4 text-gray-600 hover:text-gray-900">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -145,7 +139,6 @@
             </svg>
         </button>
 
-        {{-- Wadah Input Field dengan Ikon di Dalamnya --}}
         <div class="relative w-full max-w-2xl px-6 mx-auto" @click.stop>
             <div x-data="{ query: '{{ request('q') }}' }" class="w-full">
                 <form action="{{ route('search.index') }}" method="GET" class="relative flex items-center">
@@ -163,7 +156,6 @@
         </div>
     </div>
 
-    {{-- Mobile Menu --}}
     <div id="mobile-menu" class="hidden bg-[#FFE26F] border-t border-[#E9C153] md:hidden shadow-lg">
         <div class="flex flex-col px-6 py-4 space-y-4 text-base font-medium text-gray-800">
             <a href="/"
@@ -202,10 +194,8 @@
     </div>
 </nav>
 
-{{-- SCRIPT --}}
 <script src="//unpkg.com/alpinejs" defer></script>
 <script>
-    // Seluruh kode JavaScript untuk scroll dan mobile toggle Anda tidak perlu diubah.
     document.addEventListener("DOMContentLoaded", function () {
         const toggle = document.getElementById("nav-toggle");
         const mobileMenu = document.getElementById("mobile-menu");
