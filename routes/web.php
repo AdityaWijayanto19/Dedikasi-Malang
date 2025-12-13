@@ -13,7 +13,6 @@ use App\Models\Donasi;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/search', [GlobalSearchController::class, 'index'])->name('search.index');
-// Route::get('/api/search/global', App\Http\Controllers\GlobalSearchController::class)->name('api.search.global');
 
 Route::get('/', [LandingPageController::class, 'indexKegiatan']);
 
@@ -66,24 +65,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     ]);
 
     Route::prefix('pendaftaran')->name('pendaftaran.')->group(function () {
-        // 1. Index: Menampilkan semua Kegiatan sebagai navigasi (Cards)
-        // URL: /admin/pendaftaran
         Route::get('/', [PendaftaranController::class, 'index'])->name('index');
-
-        // 2. Show Pendaftar per Kegiatan: Menampilkan tabel pendaftar
-        // URL: /admin/pendaftaran/kegiatan/{kegiatan}
         Route::get('/kegiatan/{kegiatan}', [PendaftaranController::class, 'show'])->name('show.kegiatan');
-
-        // 3. Detail Pendaftar: Menampilkan detail pendaftar dan Form Aksi
-        // URL: /admin/pendaftaran/detail/{pendaftaran}
         Route::get('/detail/{pendaftaran}', [PendaftaranController::class, 'showDetailPendaftar'])->name('detail.pendaftar');
-
-        // 4. Aksi: Mengubah status pendaftaran (Accepted/Rejected)
-        // URL: /admin/pendaftaran/detail/{pendaftaran}/status [PUT]
         Route::put('/detail/{pendaftaran}/status', [PendaftaranController::class, 'updateStatus'])->name('update.status');
-
-        // 5. Aksi: Toggle status Buka/Tutup Pendaftaran (Kontrol Admin Kegiatan)
-        // URL: /admin/pendaftaran/kegiatan/{kegiatan}/toggle-status [PUT]
         Route::put('/kegiatan/{kegiatan}/toggle-status', [PendaftaranController::class, 'toggleRegistrationStatus'])->name('toggle.status');
     });
 

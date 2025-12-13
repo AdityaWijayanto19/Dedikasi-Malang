@@ -83,7 +83,6 @@
             </div>
         </section>
 
-        {{-- START: Tambahkan pengecekan if ($kegiatan) di sini --}}
         @if ($kegiatan)
             <x-persyaratan />
             <x-roadMap :kegiatan="Illuminate\Support\Collection::wrap($kegiatan)" />
@@ -93,7 +92,6 @@
 
     </main>
 
-    {{-- START: Tombol Floating dan Modal Cek Status (Hanya muncul jika ada $kegiatan) --}}
     @if ($kegiatan)
         <button id="checkStatusBtn"
             class="fixed bottom-5 right-5 bg-[#E9C153] text-white p-4 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300 z-50 transform hover:scale-105">
@@ -110,22 +108,18 @@
                     Masukkan **Nomor HP/WA** yang Anda gunakan saat mendaftar pada kegiatan **{{ strtoupper($kegiatan->batch) }}**.
                 </p>
 
-                {{-- FORM Cek Status --}}
                 <form id="checkStatusForm" action="{{ route('pendaftaran.status.check', $kegiatan) }}" method="POST">
                     @csrf
 
                     <div class="mb-4">
                         <label for="phone_number_input" class="block text-sm font-medium text-gray-700 mb-1">Nomor HP/WA</label>
                         
-                        {{-- PENTING: NAME harus 'phone_number' sesuai Controller --}}
                         <input type="text" name="phone_number" id="phone_number_input" placeholder="Contoh: 08123456789"
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E9C153]">
 
-                        {{-- Tampilkan error dari Controller jika ada redirect back --}}
                         @if ($errors->has('phone_number') && old('_token'))
                             <p class="text-red-500 text-xs mt-1">{{ $errors->first('phone_number') }}</p>
                         @endif
-                        {{-- Tampilkan error dari session (jika pendaftar tidak ditemukan) --}}
                         @if (session('error'))
                             <p class="text-red-500 text-xs mt-1">{{ session('error') }}</p>
                         @endif
@@ -140,37 +134,32 @@
             </div>
         </div>
     @endif
-    {{-- END: Tombol Floating dan Modal Cek Status --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Pastikan elemen ada sebelum mencoba menambah event listener
             const checkStatusBtn = document.getElementById('checkStatusBtn');
             const statusModal = document.getElementById('statusModal');
             const closeModalBtn = document.getElementById('closeModalBtn');
             const phoneInput = document.getElementById('phone_number_input');
 
             if (checkStatusBtn) {
-                // 1. Tampilkan Modal
                 checkStatusBtn.addEventListener('click', () => {
                     statusModal.classList.remove('hidden');
                     statusModal.classList.add('flex');
-                    document.body.style.overflow = 'hidden'; // Kunci scroll
+                    document.body.style.overflow = 'hidden'; 
                     phoneInput.focus();
                 });
             }
 
             if (closeModalBtn) {
-                // 2. Tutup Modal
                 closeModalBtn.addEventListener('click', () => {
                     statusModal.classList.add('hidden');
                     statusModal.classList.remove('flex');
-                    document.body.style.overflow = 'auto'; // Buka scroll
+                    document.body.style.overflow = 'auto';
                 });
             }
 
             if (statusModal) {
-                // Menutup modal ketika mengklik di luar area modal
                 statusModal.addEventListener('click', (e) => {
                     if (e.target === statusModal) {
                         closeModalBtn.click();
@@ -178,8 +167,6 @@
                 });
             }
             
-            // 3. Tampilkan Modal Jika Ada Error Setelah Redirect (Validasi atau "tidak ditemukan")
-            // Menggunakan sintaks PHP/Blade yang lebih aman untuk mencegah ParseError
             <?php if ($kegiatan && ($errors->has('phone_number') || session('error'))): ?>
                 if (statusModal) {
                     statusModal.classList.remove('hidden');

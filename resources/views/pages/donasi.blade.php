@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donasi</title>
-
+    <link rel="shortcut icon" href="{{ asset('images/logo.svg') }}" type="image/x-icon">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,16 +52,18 @@
                 <hr class="border-0.5 border-gray-400 w-full mt-2 mb-5">
             </div>
             <div class="grid grid-cols-1 place-items-center md:flex justify-center items-center gap-4">
-                @foreach ( $donasi as $item ) 
-                <a href="{{ $item ->link_donasi }}" target="_blank" rel="noopener noreferrer">
-                    <div
-                        class="flex flex-col justify-center items-center h-fit w-40 hover:-translate-y-1 cursor-pointer duration-200 mb-2">
-                        <img class="h-50 w-fit rounded-md hover:shadow-xl" src="{{ Str::startsWith($item->gambar, 'http') ? $item->gambar : asset('storage/' . $item->gambar) }}"
-                            alt="poster kegiatan">
-                        <h1 class="font-semibold text-sm text-center         text-neutral-800" style="text-transform: uppercase">{{ $item -> title }}</h1>
-                        {{-- <h2 class="text-[8px]/2 font-thin text-neutral-600 text-center">{{ str($tema) }}</h2> --}}
-                    </div>
-                </a>
+                @foreach ($donasi as $item)
+                    <a href="{{ $item->link_donasi }}" target="_blank" rel="noopener noreferrer">
+                        <div
+                            class="flex flex-col justify-center items-center h-fit w-40 hover:-translate-y-1 cursor-pointer duration-200 mb-2">
+                            <img class="h-50 w-fit rounded-md hover:shadow-xl"
+                                src="{{ Str::startsWith($item->gambar, 'http') ? $item->gambar : asset('storage/' . $item->gambar) }}"
+                                alt="poster kegiatan">
+                            <h1 class="font-semibold text-sm text-center         text-neutral-800"
+                                style="text-transform: uppercase">{{ $item->title }}</h1>
+                            {{-- <h2 class="text-[8px]/2 font-thin text-neutral-600 text-center">{{ str($tema) }}</h2> --}}
+                        </div>
+                    </a>
                 @endforeach
             </div>
         </section>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hasil Status Pendaftaran | {{ $pendaftaran->full_name }}</title>
-
+    <link rel="shortcut icon" href="{{ asset('images/logo.svg') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
@@ -102,13 +102,10 @@
             'rejected' => 'Mohon maaf, pendaftaran Anda belum dapat kami terima. Jika Anda memiliki pertanyaan atau ingin mengajukan banding, silakan hubungi Admin Panitia di bawah ini.',
         ][$status] ?? 'Status tidak dikenali.';
 
-        // 3. Tentukan Pesan Khusus untuk 'accepted'
         if ($status === 'accepted') {
             if ($whatsappLink) {
-                // Jika link ada
                 $message = 'SELAMAT! Pendaftaran Anda untuk kegiatan ini telah **DITERIMA**. Silakan segera gabung ke grup WhatsApp di bawah untuk mendapatkan informasi teknis dan jadwal selanjutnya.';
             } else {
-                // Jika link NULL/kosong
                 $message = 'SELAMAT! Pendaftaran Anda untuk kegiatan ini telah **DITERIMA**. Informasi teknis akan dikirimkan melalui email atau diumumkan kemudian. (Link Grup WhatsApp belum tersedia dari Admin).';
             }
         }

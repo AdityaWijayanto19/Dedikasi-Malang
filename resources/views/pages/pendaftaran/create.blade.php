@@ -5,14 +5,12 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>form pendaftaran</title>
-
-            <!-- Google Fonts -->
+            <link rel="shortcut icon" href="{{ asset('images/logo.svg') }}" type="image/x-icon">
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
                 rel="stylesheet">
 
-            <!-- Font Awesome Icons -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
             @vite('resources/css/app.css')
         </head>
@@ -26,25 +24,21 @@
 
        <header class="mt-10 flex flex-col items-center text-white text-center px-4">
         <h1 class="font-bold text-2xl md:text-4xl">FORM PENDAFTARAN</h1>
-        {{-- Mengambil data batch dan title dari objek $kegiatan --}}
         <h2 class="font-medium text-xl md:text-2xl">{{ $kegiatan->title }} ({{ $kegiatan->batch }})</h2>
     </header>
 
     <main>
         <section class="px-6 md:px-30 mt-5">
-            {{-- Tambahkan MX-AUTO untuk membatasi lebar di layar besar --}}
             <form action="{{ route('pages.pendaftaran.store', $kegiatan) }}" method="POST" enctype="multipart/form-data"
                 class="flex flex-col rounded-t-4xl p-6 md:p-10 h-fit w-full bg-white shadow-lg shadow-neutral-500 max-w-3xl mx-auto">
                 @csrf 
                 
-                {{-- Menampilkan pesan error atau sukses dari controller --}}
                 @if(session('error'))
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                         <span class="block sm:inline">{{ session('error') }}</span>
                     </div>
                 @endif
                 
-                {{-- 1. NAMA LENGKAP --}}
                 <div class="mb-5">
                     <label for="full_name" class="block font-medium text-gray-700 mb-2">Nama Lengkap</label>
                     <input id="full_name" name="full_name" type="text" placeholder="Contoh: Mohammad David"
@@ -56,7 +50,6 @@
                     @enderror
                 </div>
 
-                {{-- 2. DOMISILI SEKARANG --}}
                 <div class="mb-5">
                     <label for="domisili" class="block font-medium text-gray-700 mb-2">Domisili Sekarang</label>
                     <input id="domisili" name="domisili" type="text" placeholder="Contoh: Kota Malang"
@@ -68,12 +61,10 @@
                     @enderror
                 </div>
 
-                {{-- 3. JENIS KELAMIN (name=jenis_kelamin) --}}
                 <div class="mb-5">
                     <label class="block font-medium text-gray-700 mb-2">Jenis Kelamin</label>
                     <div class="flex gap-6">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            {{-- NAME: jenis_kelamin (sesuai controller) VALUE: L/P (sesuai controller) --}}
                             <input type="radio" name="jenis_kelamin" value="L"
                                 {{ old('jenis_kelamin') == 'L' ? 'checked' : '' }}
                                 class="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-blue-500 checked:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
@@ -91,7 +82,6 @@
                     @enderror
                 </div>
 
-                {{-- 4. USIA --}}
                 <div class="mb-5">
                     <label for="usia" class="block font-medium text-gray-700 mb-2">Usia</label>
                     <input type="number" id="usia" name="usia" placeholder="19" min="1"
@@ -103,7 +93,6 @@
                     @enderror
                 </div>
 
-                {{-- 5. NO. HP (WhatsApp) (name=phone_number) --}}
                 <div class="mb-5">
                     <label for="phone_number" class="block font-medium text-gray-700 mb-2">No. HP (WhatsApp)</label>
                     <input type="tel" id="phone_number" name="phone_number" placeholder="Contoh: 081234567890"
@@ -115,7 +104,6 @@
                     @enderror
                 </div>
 
-                {{-- 6. AKUN INSTAGRAM (name=akun_instagram) --}}
                 <div class="mb-5">
                     <label for="akun_instagram" class="block font-medium text-gray-700 mb-2">Akun Instagram</label>
 
@@ -135,7 +123,6 @@
                     @enderror
                 </div>
 
-                {{-- 7. INSTANSI --}}
                 <div class="mb-5">
                     <label for="instansi" class="block font-medium text-gray-700 mb-2">Instansi
                         (Sekolah/Universitas/Kerja)</label>
@@ -148,7 +135,6 @@
                     @enderror
                 </div>
 
-                {{-- 8. ALASAN MENGIKUTI KEGIATAN (name=alasan_mendaftar) --}}
                 <div class="mb-5">
                     <label for="alasan_mendaftar" class="block font-medium text-gray-700 mb-2">Alasan Mengikuti Kegiatan</label>
                     <textarea name="alasan_mendaftar" id="alasan_mendaftar" rows="4" placeholder="Tuliskan alasanmu di sini..."
@@ -159,11 +145,9 @@
                     @enderror
                 </div>
 
-                {{-- 9. DOKUMEN PENDUKUNG --}}
                 <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 mb-6 space-y-4">
                     <h3 class="font-semibold text-gray-800">Dokumen Pendukung</h3>
 
-                    {{-- Bukti Follow TikTok (name=bukti_follow_tiktok) --}}
                     <div>
                         <label for="bukti_follow_tiktok" class="block text-sm font-medium text-gray-700 mb-1">Bukti Follow TikTok
                             @dedikasimalang</label>
@@ -175,7 +159,6 @@
                         @enderror
                     </div>
 
-                    {{-- Bukti Follow Instagram (name=bukti_follow_instagram) --}}
                     <div>
                         <label for="bukti_follow_instagram" class="block text-sm font-medium text-gray-700 mb-1">Bukti Follow Instagram
                             @dedikasimalang</label>
@@ -187,13 +170,11 @@
                         @enderror
                     </div>
 
-                    {{-- Bukti Pembayaran (name=bukti_pembayaran) --}}
                     <div>
                         <label for="bukti_pembayaran" class="block text-sm font-medium text-gray-700 mb-2">Bukti
                             Pembayaran</label>
 
                         <div class="bg-blue-50 p-3 rounded-lg border border-blue-100 mb-3 text-sm text-blue-800">
-                            {{-- Informasi transfer, pastikan data ini sudah benar --}}
                             <p class="font-bold">BRI: 388301029202539</p>
                             <p>A.N: SHOFIYYAH FITHRI</p>
                             <p class="text-xs mt-1 text-blue-600">*Format berita: NAMA_DEDIKASIMALANG</p>
@@ -208,9 +189,7 @@
                     </div>
                 </div>
 
-                {{-- Tombol Aksi --}}
                 <div class="flex justify-between items-center mt-4 mb-2">
-                    {{-- Tombol Batal diarahkan ke detail kegiatan --}}
                     <a href="{{ route('pages.kegiatan.show', $kegiatan->slug) }}"
                         class="px-6 py-2.5 bg-red-500 rounded-xl text-white font-medium hover:bg-red-600 transition text-center w-32 shadow-sm">
                         Batal
@@ -226,7 +205,6 @@
     </main>
 
     <script>
-        // Setup file upload functionality untuk ketiga input
         const fileConfigs = [
             { dropAreaId: 'file-drop-area-tiktok', inputId: 'bukti_follow_tiktok', previewContainerId: 'preview-container-tiktok', imagePreviewId: 'image-preview-tiktok', uploadPromptId: 'upload-prompt-tiktok' },
             { dropAreaId: 'file-drop-area-instagram', inputId: 'bukti_follow_instagram', previewContainerId: 'preview-container-instagram', imagePreviewId: 'image-preview-instagram', uploadPromptId: 'upload-prompt-instagram' },
@@ -282,12 +260,11 @@
                 if (files.length > 0) {
                     const file = files[0];
                     
-                    // Validate file type
                     const validTypes = config.inputId === 'bukti_pembayaran' 
                         ? ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'application/pdf']
                         : ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
                     
-                    const validSize = file.size <= 2 * 1024 * 1024; // 2MB
+                    const validSize = file.size <= 2 * 1024 * 1024; 
 
                     if (!validTypes.includes(file.type)) {
                         alert('Format file tidak didukung. Gunakan: ' + (config.inputId === 'bukti_pembayaran' ? 'PNG, JPG, GIF, PDF' : 'PNG, JPG, GIF'));
@@ -299,7 +276,6 @@
                         return;
                     }
 
-                    // Set file to input and show preview
                     fileInput.files = files;
                     showPreview(file);
                 }
