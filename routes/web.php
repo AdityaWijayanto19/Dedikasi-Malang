@@ -70,6 +70,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
         Route::get('/detail/{pendaftaran}', [PendaftaranController::class, 'showDetailPendaftar'])->name('detail.pendaftar');
         Route::put('/detail/{pendaftaran}/status', [PendaftaranController::class, 'updateStatus'])->name('update.status');
         Route::put('/kegiatan/{kegiatan}/toggle-status', [PendaftaranController::class, 'toggleRegistrationStatus'])->name('toggle.status');
+        Route::delete('/detail/{pendaftaran}', [PendaftaranController::class, 'destroy'])->name('delete');
     });
 
     Route::get('/admin/search', [AdminController::class, 'search'])->name('admin.search');

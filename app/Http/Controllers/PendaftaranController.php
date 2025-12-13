@@ -161,6 +161,43 @@ class PendaftaranController extends Controller
         return back()->with('error', 'Nomor HP tidak ditemukan untuk kegiatan ini.')->withInput();
     }
 
+    /**
+     * [ADMIN] Delete pendaftaran yang di-reject dan cleanup file-nya.
+     */
+    public function destroy(Pendaftaran $pendaftaran)
+    {
+        // Hanya bisa delete jika status rejected
+        if ($pendaftaran->status !== 'rejected') {
+            return back()->with('error', 'Hanya data dengan status REJECTED yang bisa dihapus.');
+        }
+
+        try {
+            $kegiatan = $pendaftaran->kegiatan;
+
+            // Hapus file-file terkait
+            $files = [
+                $pendaftaran->bukti_follow_tiktok,
+                $pendaftaran->bukti_follow_instagram,
+                $pendaftaran->bukti_pembayaran,
+            ];
+
+            foreach ($files as $file) {
+                if (!empty($file)) {
+                    Storage::disk('public')->delete(trim($file));
+                }
+            }
+
+            // Hapus record dari database
+            $pendaftaran->delete();
+
+            return redirect()->route('admin.pendaftaran.show.kegiatan', $kegiatan)
+                ->with('success', 'Data pendaftaran dan file bukti berhasil dihapus.');
+        } catch (\Throwable $e) {
+            Log::error('Gagal menghapus pendaftaran: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat menghapus data.');
+        }
+    }
+
     public function showStatusResult(Kegiatan $kegiatan, Pendaftaran $pendaftaran)
     {
         if ($pendaftaran->kegiatan_id !== $kegiatan->id) {

@@ -98,15 +98,15 @@
         $adminWhatsappLink = 'https://wa.me/' . $adminContactNumber;
 
         $message = [
-            'pending' => 'Terima kasih, data Anda telah kami terima dan sedang dalam proses verifikasi. Mohon tunggu informasi selanjutnya.',
+            'pending' => 'Terima kasih, Anda telah kami terima dan sedang dalam proses <strong>verifikasi</strong> . Mohon tunggu informasi selanjutnya.',
             'rejected' => 'Mohon maaf, pendaftaran Anda belum dapat kami terima. Jika Anda memiliki pertanyaan atau ingin mengajukan banding, silakan hubungi Admin Panitia di bawah ini.',
         ][$status] ?? 'Status tidak dikenali.';
 
         if ($status === 'accepted') {
             if ($whatsappLink) {
-                $message = 'SELAMAT! Pendaftaran Anda untuk kegiatan ini telah **DITERIMA**. Silakan segera gabung ke grup WhatsApp di bawah untuk mendapatkan informasi teknis dan jadwal selanjutnya.';
+                $message = 'SELAMAT! Pendaftaran Anda untuk kegiatan ini telah <strong>DITERIMA</strong>. Silakan segera gabung ke grup WhatsApp di bawah untuk mendapatkan informasi teknis dan jadwal selanjutnya.';
             } else {
-                $message = 'SELAMAT! Pendaftaran Anda untuk kegiatan ini telah **DITERIMA**. Informasi teknis akan dikirimkan melalui email atau diumumkan kemudian. (Link Grup WhatsApp belum tersedia dari Admin).';
+                $message = 'SELAMAT! Pendaftaran Anda untuk kegiatan ini telah <strong>DITERIMA</strong>. Informasi teknis akan dikirimkan melalui email atau diumumkan kemudian. (Link Grup WhatsApp belum tersedia dari Admin).';
             }
         }
 
@@ -139,7 +139,7 @@
         <div class="p-8 sm:p-10 text-center">
 
             <h2 class="text-2xl font-bold text-gray-800 mb-2">{{ $pendaftaran->full_name }}</h2>
-            <p class="text-md text-gray-500 mb-6">Untuk Kegiatan: **{{ $kegiatan->title }}**</p>
+            <p class="text-md text-gray-500 mb-6">Untuk Kegiatan: <strong>{{ $kegiatan->title }}</strong></p>
 
             <div class="mb-8 p-4 bg-{{ $baseColor }}-50 rounded-xl border border-dashed border-{{ $baseColor }}-200">
                 <p class="text-lg text-gray-700 italic leading-relaxed">{!! $message !!}</p>
@@ -172,17 +172,14 @@
                     class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white brand-color hover:bg-yellow-600 transition duration-300 transform hover:scale-[1.02]">
                     <i class="fas fa-home mr-2"></i> Kembali ke Halaman Utama
                 </a>
-
-                <a href="{{ route('pendaftaran.status.form', $kegiatan) }}"
-                    class="w-full inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-search mr-2"></i> Cek status pendaftar lain
-                </a>
             </div>
 
         </div>
 
         <div class="p-4 bg-gray-100 text-center text-xs text-gray-400">
-            Pastikan Anda mencatat status ini. Semua informasi akan dikirimkan melalui kontak terdaftar.
+            <strong>
+                Pastikan Anda mencatat status ini. Semua informasi akan dikirimkan melalui kontak terdaftar.
+            </strong>
         </div>
     </div>
 
