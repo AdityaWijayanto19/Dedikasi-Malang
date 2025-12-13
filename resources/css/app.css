@@ -15,6 +15,10 @@
     --color-primary-yellow: #ffd700;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: "Inter", sans-serif;
 }
@@ -44,11 +48,11 @@ select:focus {
 }
 
 ::selection {
-    background-color: #FEEA6E;
+    background-color: #feea6e;
     color: #1f2937;
 }
 
 ::-moz-selection {
-    background-color: #FEEA6E;
+    background-color: #feea6e;
     color: #1f2937;
 }

@@ -17,7 +17,9 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
-        "alpinejs": "^3.15.0"
+        "@alpinejs/collapse": "^3.15.2",
+        "alpinejs": "^3.15.0",
+        "locomotive-scroll": "^4.1.4"
     },
     "name": "dedikasi-malang",
     "version": "1.0.0",

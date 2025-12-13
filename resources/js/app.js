@@ -1,5 +1,11 @@
 import "./bootstrap";
+
 import Alpine from "alpinejs";
+import collapse from "@alpinejs/collapse";
+import LocomotiveScroll from "locomotive-scroll";
+import "locomotive-scroll/dist/locomotive-scroll.css"; 
+
+Alpine.plugin(collapse);
 
 document.addEventListener("alpine:init", () => {
     Alpine.store("notifications", {
@@ -38,3 +44,21 @@ document.addEventListener("alpine:init", () => {
 
 window.Alpine = Alpine;
 Alpine.start();
+
+document.addEventListener("DOMContentLoaded", () => {
+    const scrollEl = document.querySelector("[data-scroll-container]");
+
+    if (scrollEl) {
+        const scroll = new LocomotiveScroll({
+            el: scrollEl,
+            smooth: true,
+            lerp: 0.03,
+            multiplier: 1.2,
+        });
+        scroll.update();
+    } else {
+        console.warn(
+            "Locomotive Scroll tidak diinisialisasi: Elemen [data-scroll-container] tidak ditemukan."
+        );
+    }
+});

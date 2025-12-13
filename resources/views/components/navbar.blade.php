@@ -128,6 +128,7 @@
         x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="translate-x-full"
         x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-200 transform"
         x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
+        @transition:enter-end="$refs.searchInput.focus()"
         class="fixed top-[49px] left-0 h-20 w-full bg-gray-50 flex flex-col items-center justify-center z-50"
         style="display: none;">
 
