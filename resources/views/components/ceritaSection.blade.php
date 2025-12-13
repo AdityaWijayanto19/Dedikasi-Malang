@@ -40,7 +40,7 @@
 
         @endforeach
     </div>
-    <a href="kirim cerita">
+    <a href="{{ route('pages.cerita.create') }}">
         <button
             class="text-md md:text-lg text-white bg-[#E9C153] font-semibold w-full p-1 rounded-md mt-2 hover:shadow-md hover:scale-101 duration-200">KIRIM
             TULISAN</button>
