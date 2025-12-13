@@ -8,7 +8,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-5 place-items-center gap-2">
 
-        @foreach ($kegiatan as $item)
+        @forelse ($kegiatan as $item)
             <a href="{{ route('pages.kegiatan.show', $item->slug) }}">
                 <div
                     class="flex flex-col justify-center items-center h-fit w-60 hover:-translate-y-1 cursor-pointer duration-200 mb-2">
@@ -26,7 +26,9 @@
                     </h2>
                 </div>
             </a>
-        @endforeach
+        @empty
+            <p class="text-lg text-gray-500 col-span-full">Belum ada roadmap kegiatan yang ditampilkan.</p>
+        @endforelse
 
     </div>
 </section>

@@ -33,6 +33,12 @@ Route::post('/kegiatan/{kegiatan}/formulir-pendaftaran', [PendaftaranController:
 Route::get('/kegiatan/{kegiatan:slug}/pendaftaran-sukses', [PendaftaranController::class, 'successPage'])
     ->name('pendaftaran.success');
 
+Route::get('/pendaftaran/{kegiatan}/check-status', [PendaftaranController::class, 'showCheckStatusForm'])->name('pendaftaran.status.form');
+
+Route::post('/pendaftaran/{kegiatan}/check-status', [PendaftaranController::class, 'checkStatus'])->name('pendaftaran.status.check');
+
+Route::get('/pendaftaran/{kegiatan}/status-result/{pendaftaran}', [PendaftaranController::class, 'showStatusResult'])->name('pendaftaran.status.result');
+
 Route::get('/kontak', function () {
     return view('/pages/kontak');
 });

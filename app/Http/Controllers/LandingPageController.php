@@ -17,7 +17,7 @@ class LandingPageController extends Controller
         ->latest()
         ->get();
         
-        $cerita = Cerita::latest()->get();
+        $cerita = Cerita::oldest()->get();
 
         $pengurus = Pengurus::oldest()->get();
 

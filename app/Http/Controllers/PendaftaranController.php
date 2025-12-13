@@ -178,7 +178,7 @@ class PendaftaranController extends Controller
      */
     public function showCheckStatusForm(Kegiatan $kegiatan)
     {
-        return view('pendaftaran.check_status_form', compact('kegiatan'));
+        return view('pages.pendaftaran.check_status_form', compact('kegiatan'));
     }
 
     /**
@@ -213,6 +213,6 @@ class PendaftaranController extends Controller
             abort(404);
         }
 
-        return view('pendaftaran.status_result', compact('kegiatan', 'pendaftaran'));
+        return view('pages.pendaftaran.status_result', compact('kegiatan', 'pendaftaran'));
     }
 }

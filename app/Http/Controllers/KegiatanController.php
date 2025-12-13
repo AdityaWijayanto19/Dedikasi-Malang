@@ -14,15 +14,24 @@ use Illuminate\Validation\Rule;
 
 class KegiatanController extends Controller
 {
+    // App\Http\Controllers\KegiatanController.php
+
     public function publicIndex()
     {
-        $newKegiatan = $this->getNewData();
+        // Mengambil 3 kegiatan terbaru untuk ditampilkan di card/list
+        $newKegiatan = Kegiatan::where('status', 1)->latest()->limit(3)->get();
 
-        $kegiatan = Kegiatan::where('status', StatusPostingan::Publish)
-            ->latest()
-            ->get();
+        // Mengambil SATU kegiatan terbaru (Kegiatan utama) untuk RoadMap dan Modal Cek Status
+        $kegiatan = Kegiatan::where('status', 1)->latest()->first(); // Menggunakan first() untuk mendapatkan satu Model, bukan Collection
 
-        return view('pages.kegiatan.index', compact('kegiatan', 'newKegiatan'));
+        // Jika tidak ada kegiatan, kita bisa kirim null atau buat model kosong
+        if (!$kegiatan) {
+            // Atur $kegiatan ke null atau model kosong jika tidak ada data
+            // Misalnya: return redirect()->route('home')->with('info', 'Belum ada kegiatan yang dibuka.');
+        }
+
+        // Kirim keduanya ke view
+        return view('pages.kegiatan.index', compact('newKegiatan', 'kegiatan'));
     }
 
 

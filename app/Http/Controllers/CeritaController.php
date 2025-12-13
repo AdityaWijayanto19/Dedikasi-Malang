@@ -10,9 +10,9 @@ use Illuminate\Validation\Rule;
 
 class CeritaController extends Controller
 {
-
+    
     public function publicIndex(){
-         $cerita = Cerita::latest()
+         $cerita = Cerita::oldest()
             ->get();
 
         return view('pages.cerita.index', compact('cerita',));

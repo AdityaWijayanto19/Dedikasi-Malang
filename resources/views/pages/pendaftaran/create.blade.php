@@ -118,10 +118,18 @@
                 {{-- 6. AKUN INSTAGRAM (name=akun_instagram) --}}
                 <div class="mb-5">
                     <label for="akun_instagram" class="block font-medium text-gray-700 mb-2">Akun Instagram</label>
-                    <input type="text" id="akun_instagram" name="akun_instagram" placeholder="@username"
-                        value="{{ old('akun_instagram') }}"
-                        class="w-full bg-neutral-100 p-3 rounded-xl border @error('akun_instagram') border-red-500 @else border-transparent @enderror"
-                        required>
+
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <span class="text-gray-500">@</span>
+                        </div>
+
+                        <input type="text" id="akun_instagram" name="akun_instagram" placeholder="username_instagram"
+                            value="{{ old('akun_instagram') }}"
+                            class="w-full bg-neutral-100 p-3 pl-8 rounded-xl border @error('akun_instagram') border-red-500 @else border-transparent @enderror"
+                            required>
+                    </div>
+
                     @error('akun_instagram')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
