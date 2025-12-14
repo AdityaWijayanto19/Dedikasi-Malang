@@ -47,5 +47,7 @@ RUN rm -rf bootstrap/cache/*.php
 
 # Perintah yang dijalankan ketika kontainer mulai
 # Hanya lakukan migrasi dan jalankan server.
-CMD php artisan migrate --force && \
+CMD php artisan session:table || true && \
+    php artisan cache:table || true && \
+    php artisan migrate --force || true && \
     php artisan serve --host=0.0.0.0 --port=${PORT}
