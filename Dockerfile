@@ -41,10 +41,8 @@ RUN npm install && npm run build
 
 # 3. FIX CRITICAL: Hapus file cache secara paksa menggunakan perintah Linux.
 # Baris ini menggantikan 'php artisan optimize:clear' yang selalu gagal karena konflik SQLite/DB.
-RUN rm -rf bootstrap/cache/*.php
-
-# 4. Atur izin storage (Wajib untuk mengatasi Permissions/CRASHED)
-RUN chmod -R 777 storage bootstrap/cache public
+RUN npm install && npm run build && \
+    rm -rf bootstrap/cache/*.php
 
 # --- STAGE 2: RUNTIME (Mengatur Start Command) ---
 
