@@ -39,10 +39,7 @@ RUN composer install --no-dev --optimize-autoloader
 # 2. Build frontend (Vite)
 RUN npm install && npm run build
 
-RUN rm -rf bootstrap/cache/*.php && \
-    php artisan config:clear && \
-    php artisan route:clear && \
-    php artisan view:clear
+RUN rm -rf bootstrap/cache/*.php &&
 
 # 4. Atur izin storage (Wajib untuk mengatasi Permissions/CRASHED)
 RUN chmod -R 777 storage bootstrap/cache public
