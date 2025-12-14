@@ -28,6 +28,8 @@ RUN useradd -ms /bin/bash railway
 # Ganti ownership file ke user non-root
 RUN chown -R railway:railway /app
 
+RUN chmod -R 775 storage bootstrap/cache
+
 # Beralih ke user non-root
 USER railway
 
@@ -47,7 +49,8 @@ RUN rm -rf bootstrap/cache/*.php
 
 # Perintah yang dijalankan ketika kontainer mulai
 # Hanya lakukan migrasi dan jalankan server.
-CMD php artisan session:table || true && \
+CMD php artisan storage:link || true && \
+    php artisan session:table || true && \
     php artisan cache:table || true && \
     php artisan migrate --force || true && \
     php artisan serve --host=0.0.0.0 --port=${PORT}
