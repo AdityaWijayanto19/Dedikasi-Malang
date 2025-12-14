@@ -26,6 +26,7 @@ Route::get('/cerita', [CeritaController::class, 'publicIndex'])->name('pages.cer
 Route::get('/cerita/{cerita:slug}', [CeritaController::class, 'publicShow'])->name('pages.cerita.show');
 
 Route::get('/donasi', [DonasiController::class, 'publicIndex'])->name('pages.donasi');
+Route::get('/donasi/{donasi:slug}', [DonasiController::class, 'publicIndex'])->name('donasi.show');
 
 Route::get('/kegiatan/{kegiatan:slug}/formulir-pendaftaran', [PendaftaranController::class, 'create'])->name('pages.pendaftaran.create');
 Route::post('/kegiatan/{kegiatan}/formulir-pendaftaran', [PendaftaranController::class, 'store'])->name('pages.pendaftaran.store');
@@ -33,9 +34,7 @@ Route::get('/kegiatan/{kegiatan:slug}/pendaftaran-sukses', [PendaftaranControlle
     ->name('pendaftaran.success');
 
 Route::get('/pendaftaran/{kegiatan}/check-status', [PendaftaranController::class, 'showCheckStatusForm'])->name('pendaftaran.status.form');
-
 Route::post('/pendaftaran/{kegiatan}/check-status', [PendaftaranController::class, 'checkStatus'])->name('pendaftaran.status.check');
-
 Route::get('/pendaftaran/{kegiatan}/status-result/{pendaftaran}', [PendaftaranController::class, 'showStatusResult'])->name('pendaftaran.status.result');
 
 Route::get('/kontak', function () {
@@ -43,7 +42,6 @@ Route::get('/kontak', function () {
 });
 
 
-Route::get('/donasi/{donasi:slug}', [DonasiController::class, 'publicIndex'])->name('donasi.show');
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/kegiatan/search', [KegiatanController::class, 'search'])->name('kegiatan.search');

@@ -125,7 +125,7 @@
             </svg>
         </div>
 
-        <div class="absolute inset-0 z-40 flex items-center justify-center">
+        <div class="absolute inset-0 z-40 flex items-center justify-center pointer-events-none">
             <div class="relative w-full max-w-4xl -translate-y-9 md:-translate-y-12">
                 <svg class="w-full h-auto overflow-visible" viewBox="0 0 800 300">
 

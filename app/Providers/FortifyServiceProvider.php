@@ -8,6 +8,7 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Actions\Fortify\LoginResponse;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -19,7 +20,7 @@ use Illuminate\Support\Str;
 
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Contracts\LoginViewResponse;
-use Laravel\Fortify\Contracts\FailedLoginResponse;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Http\Responses\SimpleViewResponse;
 use Laravel\Fortify\Fortify;
 
@@ -47,8 +48,8 @@ class FortifyServiceProvider extends ServiceProvider
             $user = User::where('email', $request->email)->first();
 
             if (! $user || ! Hash::check($request->password, $user->password)) {
-                session()->flash('error', 'Email atau password salah.');
-                logger()->error('LOGIN ERROR: email/password salah');
+                // Use session()->flash untuk memastikan message tersimpan
+                $request->session()->flash('error', 'Email atau password salah.');
                 throw \Illuminate\Validation\ValidationException::withMessages([
                     'email' => 'Email atau password salah.',
                 ]);
@@ -57,7 +58,7 @@ class FortifyServiceProvider extends ServiceProvider
             if (($user->status instanceof \App\Enums\UserStatus && $user->status === \App\Enums\UserStatus::Block)
                 || $user->status === 0
             ) {
-                session()->flash('error', 'Akun Anda diblokir. Silakan hubungi pihak Dedikasi Malang.');
+                $request->session()->flash('error', 'Akun Anda diblokir. Silakan hubungi pihak Dedikasi Malang.');
                 throw new HttpResponseException(
                     redirect()->back()
                         ->withInput()
@@ -66,9 +67,6 @@ class FortifyServiceProvider extends ServiceProvider
             }
 
             logger()->info('LOGIN SUCCESS for ' . $user->email);
-            \Illuminate\Support\Facades\Event::listen(Login::class, function ($event) {
-                session()->flash('success', 'Berhasil login, selamat datang kembali, ' . $event->user->name . '!');
-            });
 
             return $user;
         });
@@ -87,6 +85,11 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->singleton(
             LoginViewResponse::class,
             fn() => new SimpleViewResponse('auth.login')
+        );
+
+        $this->app->singleton(
+            LoginResponseContract::class,
+            LoginResponse::class
         );
     }
 }

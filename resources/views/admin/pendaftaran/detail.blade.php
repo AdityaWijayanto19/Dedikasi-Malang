@@ -24,7 +24,6 @@
             <hr class="mb-6">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {{-- Data Diri --}}
                 <div>
                     <h3 class="text-xl font-semibold mb-3 border-b pb-2">Informasi Pendaftar</h3>
                     <ul class="space-y-2 text-sm text-gray-700">
@@ -41,7 +40,6 @@
                     </ul>
                 </div>
 
-                {{-- Alasan Mendaftar --}}
                 <div>
                     <h3 class="text-xl font-semibold mb-3 border-b pb-2">Alasan Bergabung</h3>
                     <p class="bg-indigo-50 p-4 rounded-lg text-gray-700 italic">
@@ -121,7 +119,6 @@
                 </button>
             </form>
 
-            {{-- Delete Button (Hanya tampil jika status = rejected) --}}
             @if($pendaftaran->status == 'rejected')
                 <div class="mt-6 pt-6 border-t">
                     <p class="text-sm text-gray-600 mb-3">Data yang di-reject bisa dihapus permanent:</p>
@@ -143,7 +140,6 @@
         </div>
     </div>
 
-    <!-- Modal Image Viewer -->
     <div id="imageModal"
         class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col">
@@ -200,7 +196,6 @@
             }
         });
 
-        // SweetAlert2 Delete Confirmation
         function showDeleteConfirmation() {
             Swal.fire({
                 title: 'Hapus Data Pendaftaran?',

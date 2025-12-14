@@ -14,20 +14,15 @@ use Illuminate\Validation\Rule;
 
 class KegiatanController extends Controller
 {
-    // App\Http\Controllers\KegiatanController.php
 
     public function publicIndex()
     {
-        // Mengambil 3 kegiatan terbaru untuk ditampilkan di card/list
         $newKegiatan = Kegiatan::where('status', 1)->latest()->limit(3)->get();
 
-        // Mengambil SEMUA kegiatan aktif untuk RoadMap (bukan hanya satu)
         $kegiatan = Kegiatan::where('status', 1)->latest()->get();
 
-        // Jika tidak ada kegiatan, kita bisa kirim null atau buat model kosong
         if (!$kegiatan) {
-            // Atur $kegiatan ke null atau model kosong jika tidak ada data
-            // Misalnya: return redirect()->route('home')->with('info', 'Belum ada kegiatan yang dibuka.');
+            abort(404);
         }
 
         // Kirim keduanya ke view
@@ -54,26 +49,17 @@ class KegiatanController extends Controller
         return view('pages.kegiatan.show', compact('kegiatan'));
     }
 
-    /**
-     * Menampilkan semua data di admin.kegiatan.index.
-     */
     public function index()
     {
         $kegiatan = Kegiatan::latest()->paginate(5);
         return view('admin.kegiatan.index', compact('kegiatan'));
     }
 
-    /**
-     * Tampilkan halaman dari admin.kegiatan.create.
-     */
     public function create()
     {
         return view('admin.kegiatan.create');
     }
 
-    /** 
-     * Proses pembuatan manipulasi tambah data.
-     */
     public function store(Request $request)
     {
         $validatedData = $request->validate(
@@ -126,9 +112,6 @@ class KegiatanController extends Controller
         }
     }
 
-    /**
-     * Menampilkan halaman dari kegiatan.edit. 
-     */
     public function edit(Kegiatan $kegiatan)
     {
         return view('admin.kegiatan.edit', compact('kegiatan'));
