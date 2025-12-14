@@ -3,7 +3,6 @@
 FROM php:8.2-fpm AS base
 
 # Instal dependensi sistem dan PHP extensions yang dibutuhkan Laravel
-# Menggunakan libicu-dev untuk extension intl (terkadang diperlukan)
 RUN apt-get update && apt-get install -y \
     git unzip zip curl libpng-dev libonig-dev libxml2-dev libicu-dev \
     && rm -rf /var/lib/apt/lists/* \
@@ -26,7 +25,7 @@ COPY . .
 # Buat user non-root khusus (lebih aman)
 RUN useradd -ms /bin/bash railway
 
-# Ganti ownership file ke user railway
+# Ganti ownership file ke user non-root
 RUN chown -R railway:railway /app
 
 # Beralih ke user non-root
@@ -40,15 +39,17 @@ RUN composer install --no-dev --optimize-autoloader
 # 2. Build frontend (Vite)
 RUN npm install && npm run build
 
-# 3. Atur izin storage (Wajib untuk mengatasi CRASHED)
-# Memberikan izin penuh ke user railway pada direktori storage dan cache
+# 3. FIX CRITICAL: Bersihkan Cache dan Konfigurasi di tahap BUILD.
+# Ini menjamin assets Tailwind terbaru akan dimuat dan mencegah kegagalan DB saat optimize.
+RUN php artisan optimize:clear 
+
+# 4. Atur izin storage (Wajib untuk mengatasi Permissions/CRASHED)
 RUN chmod -R 777 storage bootstrap/cache public
 
 # --- STAGE 2: RUNTIME (Mengatur Start Command) ---
 
 # Perintah yang dijalankan ketika kontainer mulai
-# Melakukan migrasi dan cache konfigurasi di runtime untuk memastikan database siap
-CMD composer dump-autoload --optimize --no-dev && \
-    php artisan migrate --force && \
-    php artisan config:cache && \
+# Hanya lakukan migrasi dan jalankan server.
+# Menghindari config:cache yang sering gagal karena masalah network/DB.
+CMD php artisan migrate --force && \
     php artisan serve --host=0.0.0.0 --port=${PORT}
