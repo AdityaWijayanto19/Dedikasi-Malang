@@ -39,9 +39,10 @@ RUN composer install --no-dev --optimize-autoloader
 # 2. Build frontend (Vite)
 RUN npm install && npm run build
 
-# 3. FIX CRITICAL: Bersihkan Cache dan Konfigurasi di tahap BUILD.
-# Ini menjamin assets Tailwind terbaru akan dimuat dan mencegah kegagalan DB saat optimize.
-RUN php artisan optimize:clear 
+RUN rm -rf bootstrap/cache/*.php && \
+    php artisan config:clear && \
+    php artisan route:clear && \
+    php artisan view:clear
 
 # 4. Atur izin storage (Wajib untuk mengatasi Permissions/CRASHED)
 RUN chmod -R 777 storage bootstrap/cache public
