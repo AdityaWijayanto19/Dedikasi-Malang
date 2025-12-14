@@ -12,7 +12,7 @@
                 class="h-30 md:h-60 hover:shadow-md hover:-translate-y-1 duration-200">
             <img src="/hero/minihero6.png" alt="foto kegiatan"
                 class="h-30 md:h-60 hover:shadow-md hover:-translate-y-1 duration-200">
-            <img src="/hero/minehero7.png" alt="foto kegiatan"
+            <img src="/hero/minihero7.png" alt="foto kegiatan"
                 class="h-30 md:h-60 hover:shadow-md hover:-translate-y-1 duration-200">
         </div>
         <img src="/hero/minihero8.png" alt="foto kegiatan"
