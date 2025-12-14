@@ -31,18 +31,17 @@ RUN chown -R railway:railway /app
 # Beralih ke user non-root
 USER railway
 
-# --- BUILD COMMANDS (Dijalankan hanya sekali saat build) ---
+# --- BUILD COMMANDS ---
 
-# 1. Install Composer dependencies (untuk production)
+# Install Composer dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# 2. Build frontend (Vite)
-RUN npm install && npm run build
+# Build frontend
+RUN npm install
+RUN npm run build
 
-# 3. FIX CRITICAL: Hapus file cache secara paksa menggunakan perintah Linux.
-# Baris ini menggantikan 'php artisan optimize:clear' yang selalu gagal karena konflik SQLite/DB.
-RUN npm install && npm run build && \
-    rm -rf bootstrap/cache/*.php
+# Hapus cache Laravel (TANPA && di akhir)
+RUN rm -rf bootstrap/cache/*.php
 
 # --- STAGE 2: RUNTIME (Mengatur Start Command) ---
 
