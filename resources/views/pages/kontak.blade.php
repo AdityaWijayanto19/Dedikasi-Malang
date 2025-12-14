@@ -29,7 +29,7 @@
 
     <main class="mt-10">
         <section class="relative w-full h-[35vh] md:h-[90vh] flex items-center justify-center bg-cover bg-center"
-            style="background-image: url('{{ asset('/hero/hero1.jpg') }}')" id="hero">
+            style="background-image: url('{{ asset('/hero/HERO.jpg') }}')" id="hero">
 
             <div class="absolute inset-0 bg-yellow-300/40"></div>
 
