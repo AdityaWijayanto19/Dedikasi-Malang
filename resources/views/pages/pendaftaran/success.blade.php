@@ -13,7 +13,7 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         body {
@@ -41,7 +41,6 @@
             z-index: -20;
             pointer-events: none;
         }
-
     </style>
 </head>
 
@@ -50,7 +49,7 @@
     <div class="double-logo-background"></div>
 
     <main class="min-h-screen flex items-start justify-center p-6 md:p-10">
-        
+
         <div class="max-w-xl w-full bg-white rounded-xl shadow-2xl p-8 md:p-12 mt-10 text-center relative z-10">
 
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

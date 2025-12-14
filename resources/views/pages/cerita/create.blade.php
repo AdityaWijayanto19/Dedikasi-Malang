@@ -18,7 +18,7 @@
     <!-- TinyMCE -->
     <script src="https://cdn.tiny.cloud/1/rlfut01sybdlz7kikxzo98lo0jo9ki0ep46bdf96m6bjhsnd/tinymce/7/tinymce.min.js"
         referrerpolicy="origin"></script>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <style>
     body {
