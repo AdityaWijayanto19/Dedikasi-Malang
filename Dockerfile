@@ -39,7 +39,9 @@ RUN composer install --no-dev --optimize-autoloader
 # 2. Build frontend (Vite)
 RUN npm install && npm run build
 
-RUN rm -rf bootstrap/cache/*.php &&
+# 3. FIX CRITICAL: Hapus file cache secara paksa menggunakan perintah Linux.
+# Baris ini menggantikan 'php artisan optimize:clear' yang selalu gagal karena konflik SQLite/DB.
+RUN rm -rf bootstrap/cache/*.php
 
 # 4. Atur izin storage (Wajib untuk mengatasi Permissions/CRASHED)
 RUN chmod -R 777 storage bootstrap/cache public
@@ -48,6 +50,5 @@ RUN chmod -R 777 storage bootstrap/cache public
 
 # Perintah yang dijalankan ketika kontainer mulai
 # Hanya lakukan migrasi dan jalankan server.
-# Menghindari config:cache yang sering gagal karena masalah network/DB.
 CMD php artisan migrate --force && \
     php artisan serve --host=0.0.0.0 --port=${PORT}
