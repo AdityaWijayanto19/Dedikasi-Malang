@@ -12,10 +12,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link rel="preload" as="image" href="{{ asset('/hero/HERO.jpg') }}">
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    @vite([ 'resources/css/app.css', 'resources/js/app.js' ])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <style>
     body {
@@ -29,13 +30,15 @@
     </header>
 
     <main class="mt-10">
-        <section data-scroll-section class="relative w-full h-[35vh] md:h-screen flex items-center justify-center bg-cover bg-center"
+        <section data-scroll-section
+            class="relative w-full h-[35vh] md:h-screen flex items-center justify-center bg-cover bg-center"
             style="background-image: url('{{ asset('/hero/HERO.jpg') }}')" id="hero">
 
             <div class="absolute inset-0 bg-yellow-300/40"></div>
 
             <div class="flex relative z-10 text-center text-white justify-center items-center">
-                <img src="{{ asset('logo.png') }}" class="h-24 md:h-64 mx-auto mb-4" alt="Logo Dedikasi Malang">
+                <img src="{{ asset('logo.png') }}" loading="eager" class="h-24 md:h-64 mx-auto mb-4"
+                    alt="Logo Dedikasi Malang">
                 <h1
                     class="text-4xl md:text-8xl leading-8 md:leading-20 font-bold text-shadow-md/40 text-shadow-black/50">
                     DEDIKASI<br>MALANG
@@ -46,14 +49,14 @@
         <x-pengertian />
 
         <div
-            class="flex justify-center items-center -z-10  mt-10 fixed inset-0 bg-no-repeat bg-center bg-cover opacity-10 pointer-events-none">
-            <img src="/assets/logoDedikasi.png" alt="logo dedikasi" class="h-100 md:h-150">
+            class="flex justify-center items-center -z-10 mt-10 fixed inset-0 bg-no-repeat bg-center bg-cover opacity-10 pointer-events-none">
+            <img src="/assets/logoDedikasi.png" loading="lazy" alt="logo dedikasi" class="h-100 md:h-150">
         </div>
 
         <section class="flex flex-col justify-center items-center px-15 md:px-30 z-40 mt-5" id="profil">
             <hr class="border-0.5 border-gray-400 w-full mb-5">
             <div class="grid grid-cols-1 place-items-center md:flex gap-5 justify-center items-center">
-                <img class="h-45 md:h-70 hover:-translate-y-0.5 hover:shadow-xl duration-150 rounded-md"
+                <img class="h-45 md:h-70 hover:-translate-y-0.5 hover:shadow-xl duration-150 rounded-md" loading="lazy"
                     src="/hero/minihero1.png" alt="foto dedikasi">
                 <div class="flex flex-col gap-2 justify-center items-center md:justify-start md:items-start">
                     <h2 class="text-xl md:text-4xl font-bold text-[#E9C153]">PROFIL DEDIKASI MALANG</h2>
@@ -95,19 +98,18 @@
             </div>
         </section>
 
-        <section class="px-15 md:px-30 z-40 mt-5" id="tim dedikasi">
+        <section class="px-15 md:px-30 z-40 mt-5" id="tim-dedikasi">
             <div class="flex flex-col justify-center items-center">
                 <hr class="border-0.5 border-gray-400 w-full mb-2">
                 <h1 class="font-bold text-xl md:text-4xl text-[#E9C153]">TIM DEDIKASI MALANG</h1>
                 <hr class="border-0.5 border-gray-400 w-full mt-2 mb-5">
             </div>
             <div class="grid grid-cols-2 gap-2 md:grid-cols-5 place-items-center px-2" id="web">
-                <x-teamCard :pengurus="$pengurus"/>
+                <x-teamCard :pengurus="$pengurus" />
             </div>
 
             <div class="md:hidden grid grid-cols-2 gap-2 md:grid-cols-5 place-items-center px-2" id="mobile">
-                <x-teamCard :pengurus="$pengurus"/>
-                </div>
+                <x-teamCard :pengurus="$pengurus" />
             </div>
         </section>
 
@@ -125,37 +127,37 @@
                     yang sering disebut SDGs yakni 17 fokus pengembangan bidang di Dunia maupun di Indonesia.</p>
                 <hr class="border-0.5 border-gray-400 w-full mt-2 mb-5">
             </div>
-            <img src="/assets/campaign.png" alt="dedikasi malang x SDGs" class="h-fit w-full">
+            <img src="/assets/campaign.png" loading="lazy" alt="dedikasi malang x SDGs" class="h-fit w-full">
             <div class="grid grid-cols-5 gap-1 md:gap-4">
                 <div class="flex flex-col justify-center items-center gap-1">
-                    <img src="/assets/logoPend.png" alt="logo pendidikan"
+                    <img src="/assets/logoPend.png" loading="lazy" alt="logo pendidikan"
                         class="h-12 w-full md:h-55 mx-auto mt-2 md:mt-5 p-2 bg-linear-to-t from-[#E9C153] to-[#FFE26F]">
                     <p class="font-semibold text-neutral-700 text-[8px] md:text-lg">PENDIDIKAN</p>
                 </div>
                 <div class="flex flex-col justify-center items-center gap-1">
-                    <img src="/assets/logoSos.png" alt="logo sosial"
+                    <img src="/assets/logoSos.png" loading="lazy" alt="logo sosial"
                         class="h-12 w-full md:h-55 mx-auto mt-2 md:mt-5 p-2 bg-linear-to-t from-[#E9C153] to-[#FFE26F]">
                     <p class="font-semibold text-neutral-700 text-[8px] md:text-lg">SOSIAL</p>
                 </div>
                 <div class="flex flex-col justify-center items-center gap-1">
-                    <img src="/assets/logoLing.png" alt="logo lingkungan"
+                    <img src="/assets/logoLing.png" loading="lazy" alt="logo lingkungan"
                         class="h-12 w-full md:h-55 mx-auto mt-2 md:mt-5 p-2 bg-linear-to-t from-[#E9C153] to-[#FFE26F]">
                     <p class="font-semibold text-neutral-700 text-[8px] md:text-lg">LINGKUNGAN</p>
                 </div>
                 <div class="flex flex-col justify-center items-center gap-1">
-                    <img src="/assets/logoKreatif.png" alt="logo kreatif"
+                    <img src="/assets/logoKreatif.png" loading="lazy" alt="logo kreatif"
                         class="h-12 w-full md:h-55 mx-auto mt-2 md:mt-5 p-2 bg-linear-to-t from-[#E9C153] to-[#FFE26F]">
                     <p class="font-semibold text-neutral-700 text-[8px] md:text-lg">KREATIF</p>
                 </div>
                 <div class="flex flex-col justify-center items-center gap-1">
-                    <img src="/assets/logoKes.png" alt="logo kesehatan"
+                    <img src="/assets/logoKes.png" loading="lazy" alt="logo kesehatan"
                         class="h-12 w-full md:h-55 mx-auto mt-2 md:mt-5 p-2 bg-linear-to-t from-[#E9C153] to-[#FFE26F]">
                     <p class="font-semibold text-neutral-700 text-[8px] md:text-lg">KESEHATAN</p>
                 </div>
             </div>
         </section>
 
-        <x-roadMap :kegiatan="$kegiatan"/>
+        <x-roadMap :kegiatan="$kegiatan" />
 
         <section class="px-15 md:px-30 z-40 mt-5" id="DaftarKegiatan">
             <div class="flex flex-col justify-center items-center">
@@ -164,7 +166,7 @@
                 <hr class="border-0.5 border-gray-400 w-full mt-2 mb-5">
             </div>
             <div class="grid grid-cols-1 place-items-center md:flex md:justify-around">
-                <img class="h-45 md:h-70" src="/hero/minihero3.png" alt="foto kegiatan">
+                <img class="h-45 md:h-70" loading="lazy" src="/hero/minihero3.png" alt="foto kegiatan">
                 <div class="flex flex-col justify-center mt-2">
                     <h1 class="text-xl md:text-4xl text-center leading-4 font-bold text-[#E9C153]">DAFTAR KEGIATAN
                         DEDIKASI MALANG</h1>

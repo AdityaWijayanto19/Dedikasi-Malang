@@ -80,7 +80,7 @@
                     <span>Pengurus</span>
                 </a>
                 <a href="{{ route('admin.manage-admin.index') }}"
-                    class="flex items-center space-x-2 py-2.5 px-4 rounded font-semibold transition {{ request()->routeIs('admin.admin.*') ? 'bg-primary-yellow text-gray-900 hover:bg-yellow-400' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+                    class="flex items-center space-x-2 py-2.5 px-4 rounded font-semibold transition {{ request()->routeIs('admin.manage-admin.*') ? 'bg-primary-yellow text-gray-900 hover:bg-yellow-400' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                         stroke="currentColor" class="h-5 w-5 mr-3">
                         <path stroke-linecap="round" stroke-linejoin="round"

@@ -108,16 +108,18 @@
                 Simpan Cerita
             </button>
         </div>
-        
+
     </div>
 </form>
 
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+
             const toggle = document.getElementById('toggle');
             const statusText = document.getElementById('status-text');
-            if (toggle) {
+
+            if (toggle && statusText) {
                 toggle.addEventListener('change', function () {
                     statusText.textContent = this.checked ? 'Aktif' : 'Nonaktif';
                 });
@@ -129,14 +131,21 @@
             const imagePreview = document.getElementById('image-preview');
             const uploadPrompt = document.getElementById('upload-prompt');
 
+            if (!dropArea || !fileInput) return;
+
             function showPreview(file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     imagePreview.src = e.target.result;
                     previewContainer.classList.remove('hidden');
 
-                    uploadPrompt.classList.add('opacity-0', 'hover:opacity-100', 'bg-black/50', 'text-white');
-                }
+                    uploadPrompt.classList.add(
+                        'opacity-0',
+                        'hover:opacity-100',
+                        'bg-black/50',
+                        'text-white'
+                    );
+                };
                 reader.readAsDataURL(file);
             }
 
@@ -146,80 +155,99 @@
                 }
             });
 
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, (e) => {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+                dropArea.addEventListener(evt, e => {
                     e.preventDefault();
                     e.stopPropagation();
-                }, false);
+                });
             });
 
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropArea.addEventListener(eventName, () => dropArea.classList.add('is-dragging'), false);
+            ['dragenter', 'dragover'].forEach(evt => {
+                dropArea.addEventListener(evt, () => {
+                    dropArea.classList.add('is-dragging');
+                });
             });
 
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, () => dropArea.classList.remove('is-dragging'), false);
+            ['dragleave', 'drop'].forEach(evt => {
+                dropArea.addEventListener(evt, () => {
+                    dropArea.classList.remove('is-dragging');
+                });
             });
 
-            dropArea.addEventListener('drop', (e) => {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                if (files.length > 0) {
-                    fileInput.files = files;
-                    showPreview(files[0]);
+            dropArea.addEventListener('drop', e => {
+                const file = e.dataTransfer.files[0];
+                if (file) {
+                    fileInput.files = e.dataTransfer.files;
+                    showPreview(file);
                 }
-            }, false);
+            });
         });
 
-        tinymce.init({
-            selector: 'textarea#deskripsi',
+        window.addEventListener('load', function () {
 
-            plugins: 'autoresize image link media lists table wordcount preview fullscreen',
+            if (typeof tinymce === 'undefined') {
+                console.error('TinyMCE gagal dimuat (CDN tidak tersedia)');
+                return;
+            }
 
-            toolbar: 'undo redo | blocks | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | fullscreen preview',
+            if (tinymce.get('deskripsi')) {
+                tinymce.remove('#deskripsi');
+            }
 
-            skin: 'oxide',
-            content_css: 'default',
-            content_style: `
-                                                                                        ::selection {
-                                                                                          background-color: #FEEA6E !important; 
-                                                                                            color: #1f2937 !important;           
-                                                                                        }
-                                                                                        ::-moz-selection {
-                                                                                            background-color: #FEEA6E !important; 
-                                                                                            color: #1f2937 !important;           
-                                                                                        }
-                                                                                    `,
-            height: 500,
-            autoresize_bottom_margin: 20,
+            tinymce.init({
+                selector: 'textarea#deskripsi',
+                menubar: false,
+                branding: false,
 
-            image_title: true,
-            automatic_uploads: true,
-            file_picker_types: 'image',
+                plugins: 'autoresize image link media lists table wordcount preview fullscreen',
+                toolbar: 'undo redo | blocks | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | fullscreen preview',
 
-            file_picker_callback: (cb, value, meta) => {
-                const input = document.createElement('input');
-                input.setAttribute('type', 'file');
-                input.setAttribute('accept', 'image/*');
+                skin: 'oxide',
+                content_css: 'default',
 
-                input.addEventListener('change', (e) => {
-                    const file = e.target.files[0];
+                content_style: `
+                ::selection {
+                    background-color: #FEEA6E !important;
+                    color: #1f2937 !important;
+                }
+                ::-moz-selection {
+                    background-color: #FEEA6E !important;
+                    color: #1f2937 !important;
+                }
+            `,
 
-                    const reader = new FileReader();
-                    reader.addEventListener('load', () => {
-                        const id = 'blobid' + (new Date()).getTime();
-                        const blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                        const base64 = reader.result.split(',')[1];
-                        const blobInfo = blobCache.create(id, file, base64);
-                        blobCache.add(blobInfo);
+                height: 500,
+                autoresize_bottom_margin: 20,
 
-                        cb(blobInfo.blobUri(), { title: file.name });
-                    });
-                    reader.readAsDataURL(file);
-                });
+                image_title: true,
+                automatic_uploads: true,
+                file_picker_types: 'image',
 
-                input.click();
-            },
+                file_picker_callback: function (cb, value, meta) {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+
+                    input.onchange = function () {
+                        const file = this.files[0];
+                        if (!file) return;
+
+                        const reader = new FileReader();
+                        reader.onload = function () {
+                            const id = 'blobid' + new Date().getTime();
+                            const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                            const base64 = reader.result.split(',')[1];
+                            const blobInfo = blobCache.create(id, file, base64);
+
+                            blobCache.add(blobInfo);
+                            cb(blobInfo.blobUri(), { title: file.name });
+                        };
+                        reader.readAsDataURL(file);
+                    };
+
+                    input.click();
+                }
+            });
         });
     </script>
 @endpush

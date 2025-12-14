@@ -80,7 +80,7 @@
                     </div>
 
                     <div>
-                        <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-1">
+                        <label for="gambar" class="block text-sm font-medium text-gray-700 mb-1">
                             Upload Gambar Utama
                             <x-tooltip>
                                 <p class="mb-2">Gunakan gambar rasio <strong>16:9</strong> dan ukuran maksimal
@@ -147,6 +147,63 @@
         </section>
     </main>
     <script>
+        window.addEventListener('load', function () {
+            if (typeof tinymce === 'undefined') {
+                console.error('TinyMCE gagal dimuat');
+                return;
+            }
+
+            tinymce.init({
+                selector: 'textarea#deskripsi',
+                menubar: false,
+                branding: false,
+                plugins: 'autoresize image link media lists table wordcount preview fullscreen',
+                toolbar: 'undo redo | blocks | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | fullscreen preview',
+                skin: 'oxide',
+                content_css: 'default',
+                content_style: `
+            ::selection {
+                background-color: #FEEA6E !important;
+                color: #1f2937 !important;
+            }
+            ::-moz-selection {
+                background-color: #FEEA6E !important;
+                color: #1f2937 !important;
+            }
+        `,
+                height: 400,
+                autoresize_bottom_margin: 20,
+                image_title: true,
+                automatic_uploads: true,
+                file_picker_types: 'image',
+
+                file_picker_callback: (cb, value, meta) => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+
+                    input.addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        const reader = new FileReader();
+
+                        reader.onload = () => {
+                            const id = 'blobid' + new Date().getTime();
+                            const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                            const base64 = reader.result.split(',')[1];
+                            const blobInfo = blobCache.create(id, file, base64);
+
+                            blobCache.add(blobInfo);
+                            cb(blobInfo.blobUri(), { title: file.name });
+                        };
+
+                        reader.readAsDataURL(file);
+                    });
+
+                    input.click();
+                }
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.querySelector('form');
             const dropArea = document.getElementById('file-drop-area');
@@ -159,31 +216,28 @@
             const formError = document.getElementById('form-error');
             const submitBtn = document.getElementById('submit-btn');
 
-            // Validasi file
+            const MAX_SIZE = 2 * 1024 * 1024;
+            const VALID_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+
             function validateFile(file) {
-                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-                const maxSize = 2 * 1024 * 1024; // 2MB
-
-                if (!validTypes.includes(file.type)) {
-                    return { valid: false, message: 'Format file tidak didukung. Gunakan PNG, JPG, GIF, atau WEBP.' };
+                if (!VALID_TYPES.includes(file.type)) {
+                    return 'Format file tidak didukung (PNG, JPG, GIF, WEBP)';
                 }
-
-                if (file.size > maxSize) {
-                    return { valid: false, message: 'Ukuran file terlalu besar. Maksimal 2MB.' };
+                if (file.size > MAX_SIZE) {
+                    return 'Ukuran file maksimal 2MB';
                 }
-
-                return { valid: true, message: '' };
+                return null;
             }
 
             function showPreview(file) {
                 const reader = new FileReader();
-                reader.onload = function (e) {
+                reader.onload = e => {
                     imagePreview.src = e.target.result;
                     previewContainer.classList.remove('hidden');
                     uploadPrompt.classList.add('hidden');
                     fileError.classList.add('hidden');
-                    fileInfo.textContent = file.name + ' (' + (file.size / 1024).toFixed(2) + ' KB)';
-                }
+                    fileInfo.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+                };
                 reader.readAsDataURL(file);
             }
 
@@ -195,152 +249,73 @@
             }
 
             fileInput.addEventListener('change', () => {
-                if (fileInput.files.length > 0) {
-                    const file = fileInput.files[0];
-                    const validation = validateFile(file);
-
-                    if (validation.valid) {
-                        showPreview(file);
-                    } else {
-                        showError(validation.message);
-                        fileInput.value = '';
-                    }
+                if (!fileInput.files.length) return;
+                const file = fileInput.files[0];
+                const error = validateFile(file);
+                if (error) {
+                    showError(error);
+                    fileInput.value = '';
+                } else {
+                    showPreview(file);
                 }
             });
 
-            // Drag and drop
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, (e) => {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+                dropArea.addEventListener(evt, e => {
                     e.preventDefault();
                     e.stopPropagation();
-                }, false);
+                });
             });
 
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropArea.addEventListener(eventName, () => {
+            ['dragenter', 'dragover'].forEach(evt => {
+                dropArea.addEventListener(evt, () => {
                     dropArea.classList.add('border-yellow-500', 'bg-yellow-50');
-                }, false);
+                });
             });
 
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, () => {
+            ['dragleave', 'drop'].forEach(evt => {
+                dropArea.addEventListener(evt, () => {
                     dropArea.classList.remove('border-yellow-500', 'bg-yellow-50');
-                }, false);
+                });
             });
 
-            dropArea.addEventListener('drop', (e) => {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-
-                if (files.length > 0) {
-                    const file = files[0];
-                    const validation = validateFile(file);
-
-                    if (validation.valid) {
-                        fileInput.files = files;
-                        showPreview(file);
-                    } else {
-                        showError(validation.message);
-                    }
+            dropArea.addEventListener('drop', e => {
+                const file = e.dataTransfer.files[0];
+                if (!file) return;
+                const error = validateFile(file);
+                if (error) {
+                    showError(error);
+                } else {
+                    fileInput.files = e.dataTransfer.files;
+                    showPreview(file);
                 }
-            }, false);
+            });
 
-            // Form validation sebelum submit
             form.addEventListener('submit', function (e) {
                 formError.classList.add('hidden');
-                let hasError = false;
-                let errorMessage = '';
 
-                // Validasi title
                 const title = document.getElementById('title').value.trim();
-                if (title.length < 5) {
-                    hasError = true;
-                    errorMessage = 'Judul minimal 5 karakter.';
-                }
-
-                // Validasi nama penulis
-                const namaPenulis = document.getElementById('nama_penulis').value.trim();
-                if (!namaPenulis) {
-                    hasError = true;
-                    errorMessage = 'Nama penulis wajib diisi.';
-                }
-
-                // Validasi jabatan
+                const nama = document.getElementById('nama_penulis').value.trim();
                 const jabatan = document.getElementById('jabatan').value.trim();
-                if (!jabatan) {
-                    hasError = true;
-                    errorMessage = 'Jabatan wajib diisi.';
-                }
+                const deskripsi = tinymce.get('deskripsi')?.getContent({ format: 'text' }).trim() || '';
 
-                // Validasi deskripsi
-                const deskripsi = document.getElementById('deskripsi').value.trim();
-                if (deskripsi.length < 20) {
-                    hasError = true;
-                    errorMessage = 'Cerita minimal 20 karakter.';
-                }
+                let error = '';
 
-                // Validasi file gambar
-                if (!fileInput.files.length) {
-                    hasError = true;
-                    errorMessage = 'Foto/gambar wajib diupload.';
-                }
+                if (title.length < 5) error = 'Judul minimal 5 karakter';
+                else if (!nama) error = 'Nama penulis wajib diisi';
+                else if (!jabatan) error = 'Jabatan wajib diisi';
+                else if (deskripsi.length < 20) error = 'Cerita minimal 20 karakter';
+                else if (!fileInput.files.length) error = 'Gambar wajib diupload';
 
-                if (hasError) {
+                if (error) {
                     e.preventDefault();
-                    formError.textContent = errorMessage;
+                    formError.textContent = error;
                     formError.classList.remove('hidden');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
                     submitBtn.disabled = true;
                     submitBtn.textContent = 'Mengirim...';
                 }
-            });
-
-            // Initialize TinyMCE
-            tinymce.init({
-                selector: 'textarea#deskripsi',
-                plugins: 'autoresize image link media lists table wordcount preview fullscreen',
-                toolbar: 'undo redo | blocks | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | fullscreen preview',
-                skin: 'oxide',
-                content_css: 'default',
-                content_style: `
-                    ::selection {
-                        background-color: #FEEA6E !important; 
-                        color: #1f2937 !important;           
-                    }
-                    ::-moz-selection {
-                        background-color: #FEEA6E !important; 
-                        color: #1f2937 !important;           
-                    }
-                `,
-                height: 400,
-                autoresize_bottom_margin: 20,
-                image_title: true,
-                automatic_uploads: true,
-                file_picker_types: 'image',
-                file_picker_callback: (cb, value, meta) => {
-                    const input = document.createElement('input');
-                    input.setAttribute('type', 'file');
-                    input.setAttribute('accept', 'image/*');
-
-                    input.addEventListener('change', (e) => {
-                        const file = e.target.files[0];
-
-                        const reader = new FileReader();
-                        reader.addEventListener('load', () => {
-                            const id = 'blobid' + (new Date()).getTime();
-                            const blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                            const base64 = reader.result.split(',')[1];
-                            const blobInfo = blobCache.create(id, file, base64);
-                            blobCache.add(blobInfo);
-
-                            cb(blobInfo.blobUri(), { title: file.name });
-                        });
-                        reader.readAsDataURL(file);
-                    });
-
-                    input.click();
-                },
             });
         });
     </script>
