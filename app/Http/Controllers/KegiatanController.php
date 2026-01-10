@@ -17,7 +17,7 @@ class KegiatanController extends Controller
 
     public function publicIndex()
     {
-        $newKegiatan = Kegiatan::where('status', 1)->latest()->limit(3)->get();
+        $newKegiatan = $this->getNewData();
 
         $kegiatan = Kegiatan::where('status', 1)->latest()->get();
 
@@ -91,8 +91,7 @@ class KegiatanController extends Controller
 
         try {
             if ($request->hasFile('gambar')) {
-                $path = $request->file('gambar')->store('kegiatan', 'public');
-                $validatedData['gambar'] = $path;
+                $validatedData['gambar'] = $this->fileServices->UploadOrUpdate($request->file('gambar'), 'kegiatan');
             }
 
             $validatedData['slug'] = generateUniqueSlug($validatedData['batch']);
@@ -102,8 +101,8 @@ class KegiatanController extends Controller
             return redirect()->route('admin.kegiatan.index')->with('success', 'Data kegiatan berhasil ditambahkan!');
         } catch (\Throwable $e) {
 
-            if ($path) {
-                Storage::disk('public')->delete($path);
+            if (isset($validatedData['gambar'])) {
+                $this->fileServices->deleteFile($validatedData['gambar']);
             }
 
             Log::error('GAGAL MENYIMPAN KEGIATAN: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
