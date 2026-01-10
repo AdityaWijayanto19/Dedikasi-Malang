@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\PendaftaranStatus;
 use App\Enums\StatusPostingan;
+use App\Http\Requests\StoreKegiatanRequest;
 use App\Models\Kegiatan;
 
 use Illuminate\Http\Request;
@@ -60,34 +61,9 @@ class KegiatanController extends Controller
         return view('admin.kegiatan.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreKegiatanRequest $request)
     {
-        $validatedData = $request->validate(
-            [
-                'batch' => 'required|max:255|unique:kegiatans,batch',
-                'title' => 'required|max:255',
-                'deskripsi' => 'required|string|max:1000',
-                'tanggal' => 'required|string|max:100',
-                'gambar' => 'required|file|mimes:jpeg,jpg,png,svg|max:2048',
-                'lokasi' => 'required|max:255',
-                'link_dokumentasi' => 'required|max:255',
-                'status' => ['required', new Enum(StatusPostingan::class)],
-                'link_whatsapp_group' => 'nullable|max:255',
-                'is_open_for_registration' => ['required', new Enum(PendaftaranStatus::class)],
-            ],
-            [
-                'batch.unique' => 'Batch kegiatan sudah ada, silakan gunakan Batch lain.',
-                'batch.required' => 'Batch kegiatan wajib diisi.',
-                'title.required' => 'Judul kegiatan wajib diisi.',
-                'gambar.required' => 'Gambar kegiatan wajib diisi.',
-                'deskripsi.required' => 'Deskripsi kegiatan wajib diisi.',
-                'tanggal.required' => 'Tanggal kegiatan wajib diisi.',
-                'lokasi.required' => 'Lokasi kegiatan wajib diisi.',
-                'link_dokumentasi.required' => 'Link Url kegiatan wajib diisi.',
-            ]
-        );
-
-        $path = null;
+        $validatedData = $request->validated();
 
         try {
             if ($request->hasFile('gambar')) {
