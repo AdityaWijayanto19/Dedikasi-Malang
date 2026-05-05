@@ -19,7 +19,8 @@
 
         <div class="lg:col-span-2 bg-white p-8 rounded-lg shadow-xl">
             <h2 class="text-2xl font-bold text-indigo-700 mb-4">{{ $pendaftaran->full_name }}</h2>
-            <p class="mb-4 text-sm text-gray-600">Mendaftar untuk Kegiatan: <strong>{{ $pendaftaran->kegiatan->title }}</strong></p>
+            <p class="mb-4 text-sm text-gray-600">Mendaftar untuk Kegiatan:
+                <strong>{{ $pendaftaran->kegiatan->title }}</strong></p>
 
             <hr class="mb-6">
 
@@ -36,7 +37,8 @@
                                 class="font-mono bg-gray-100 p-1 rounded">{{ $pendaftaran->phone_number }}</span></li>
                         <li><strong>Akun Instagram:</strong> <a
                                 href="https://instagram.com/{{ $pendaftaran->akun_instagram }}" target="_blank"
-                                class="text-blue-500 hover:underline">@<span>{{ $pendaftaran->akun_instagram }}</span></a></li>
+                                class="text-blue-500 hover:underline">@<span>{{ $pendaftaran->akun_instagram }}</span></a>
+                        </li>
                     </ul>
                 </div>
 
@@ -61,7 +63,7 @@
 
                 @forelse ($buktiFiles as $label => $path)
                     @php
-                        $trimmedPath = trim((string)$path);
+                        $trimmedPath = trim((string) $path);
                         $fileExists = !empty($trimmedPath) && \Illuminate\Support\Facades\Storage::disk('public')->exists($trimmedPath);
                     @endphp
                     <div class="border p-4 rounded-lg hover:bg-gray-50 transition duration-150">
@@ -91,9 +93,9 @@
             <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-800">Aksi Verifikasi</h3>
 
             <div class="mb-4 p-3 rounded-lg border-2 
-                                        @if ($pendaftaran->status == 'accepted') border-green-400 bg-green-50
-                                        @elseif ($pendaftaran->status == 'rejected') border-red-400 bg-red-50
-                                        @else border-yellow-400 bg-yellow-50 @endif">
+                                            @if ($pendaftaran->status == 'accepted') border-green-400 bg-green-50
+                                            @elseif ($pendaftaran->status == 'rejected') border-red-400 bg-red-50
+                                            @else border-yellow-400 bg-yellow-50 @endif">
                 Status Saat Ini:
                 <span class="font-extrabold text-xl">{{ ucfirst($pendaftaran->status) }}</span>
             </div>
@@ -118,6 +120,29 @@
                     Simpan Status Verifikasi
                 </button>
             </form>
+
+            @if($pendaftaran->status === 'accepted')
+                @php
+                    $phone = preg_replace('/[^0-9]/', '', $pendaftaran->phone_number);
+
+                    if (substr($phone, 0, 1) == '0') {
+                        $phone = '62' . substr($phone, 1);
+                    }
+
+                    $message = "Halo {$pendaftaran->full_name},🙌 \n\n" .
+                        "Selamat! Kamu telah diterima di kegiatan {$pendaftaran->kegiatan->title}.\n\n" .
+                        "Silakan join grup WhatsApp:\n" .
+                        "{$pendaftaran->kegiatan->link_whatsapp_group}\n\n" .
+                        "Terima kasih 🙌";
+
+                    $waUrl = "https://wa.me/{$phone}?text=" . urlencode($message);
+                @endphp
+
+                <a href="{{ $waUrl }}" target="_blank"
+                    class="mt-4 w-full inline-block text-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">
+                    Kirim WhatsApp
+                </a>
+            @endif
 
             @if($pendaftaran->status == 'rejected')
                 <div class="mt-6 pt-6 border-t">
@@ -168,11 +193,11 @@
 
             // Load image dengan error handling
             modalImage.src = imageUrl;
-            modalImage.onerror = function() {
+            modalImage.onerror = function () {
                 alert('Gagal memuat gambar. Path mungkin tidak sesuai.');
                 console.error('Image URL:', imageUrl);
             };
-            
+
             downloadLink.href = imageUrl;
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
@@ -200,7 +225,7 @@
             Swal.fire({
                 title: 'Hapus Data Pendaftaran?',
                 html: `<p class="text-sm text-gray-600">Data pendaftaran <strong>{{ $pendaftaran->full_name }}</strong> akan dihapus secara permanent.</p>
-                       <p class="text-sm text-red-600 mt-2"><strong>Perhatian:</strong> Semua file bukti juga akan dihapus dan tidak bisa dikembalikan.</p>`,
+                           <p class="text-sm text-red-600 mt-2"><strong>Perhatian:</strong> Semua file bukti juga akan dihapus dan tidak bisa dikembalikan.</p>`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#dc2626',

@@ -154,6 +154,22 @@
                         class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3 focus:border-primary-yellow focus:ring focus:ring-primary-yellow/50 transition duration-150"
                         placeholder="chat.whatsapp.com">
                 </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Aktifkan Pilihan Member
+                    </label>
+
+                    <select name="is_member_active" class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3">
+
+                        <option value="1" {{ old('is_member_active', $isEdit ? $kegiatan->is_member_active : 1) == 1 ? 'selected' : '' }}>
+                            Aktif
+                        </option>
+
+                        <option value="0" {{ old('is_member_active', $isEdit ? $kegiatan->is_member_active : 1) == 0 ? 'selected' : '' }}>
+                            Nonaktif
+                        </option>
+                    </select>
+                </div>
             </div>
         </div>
 

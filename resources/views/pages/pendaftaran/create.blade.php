@@ -95,7 +95,7 @@
 
                 <div class="mb-5">
                     <label for="phone_number" class="block font-medium text-gray-700 mb-2">No. HP (WhatsApp)</label>
-                    <input type="tel" id="phone_number" name="phone_number" placeholder="Contoh: 081234567890"
+                    <input type="tel" id="phone_number" name="phone_number" placeholder="Format: 081234567890/6212345678"
                         value="{{ old('phone_number') }}"
                         class="w-full bg-neutral-100 p-3 rounded-xl border @error('phone_number') border-red-500 @else border-transparent @enderror"
                         required>
@@ -144,6 +144,59 @@
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+
+                @if($kegiatan->is_member_active)
+                <div class="mb-5">
+                    <label for="member" class="block font-medium text-grey-700 mb-2">Daftar member</label>
+                    <div class="h-fit md:h-80 grid grid-cols-1 md:grid-cols-2 place-items-center md:place-items-start gap-4 bg-gray-100 p-5 rounded-xl border @error('member') border-red-500 @else border-transparent @enderror">
+                    <img class="h-50 md:h-70 rounded-2xl" src="{{ asset('images/sizechart.webp') }}" alt="Size Chart">
+                    <div class="h-full">
+                    <label class="flex items-center gap-2 cursor-pointer mt-3">
+                            <input type="radio" name="member" value="sudah member"
+                                {{ old('member') == 'sudah member' ? 'checked' : '' }}
+                                class="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-blue-500 checked:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
+                            <span>Sudah member</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer mt-3">
+                            <input type="radio" name="member" value="tidak member"
+                                {{ old('member') == 'tidak member' ? 'checked' : '' }}
+                                class="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-blue-500 checked:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
+                            <span>tidak beli kaos</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer mt-3">
+                            <input type="radio" name="member" value="S"
+                                {{ old('member') == 'S' ? 'checked' : '' }}
+                                class="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-blue-500 checked:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
+                            <span>S</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer mt-3">
+                            <input type="radio" name="member" value="M"
+                                {{ old('member') == 'M' ? 'checked' : '' }}
+                                class="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-blue-500 checked:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
+                            <span>M</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer mt-3">
+                            <input type="radio" name="member" value="L"
+                                {{ old('member') == 'L' ? 'checked' : '' }}
+                                class="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-blue-500 checked:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
+                            <span>L</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer mt-3">
+                            <input type="radio" name="member" value="XL"
+                                {{ old('member') == 'XL' ? 'checked' : '' }}
+                                class="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-blue-500 checked:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
+                            <span>XL</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer mt-3">
+                            <input type="radio" name="member" value="XXL"
+                                {{ old('member') == 'XXL' ? 'checked' : '' }}
+                                class="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-blue-500 checked:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
+                            <span>XXL</span>
+                        </label>
+                    </div>
+                    </div>
+                </div>
+                @endif
 
                 <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 mb-6 space-y-4">
                     <h3 class="font-semibold text-gray-800">Dokumen Pendukung</h3>

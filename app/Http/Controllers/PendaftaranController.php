@@ -22,9 +22,9 @@ class PendaftaranController extends Controller
             'pendaftarans as accepted_count' => function ($query) {
                 $query->where('status', 'accepted');
             }
-        ])->latest()->get(); 
+        ])->latest()->get();
 
-        return view('admin.pendaftaran.index', compact('kegiatans')); 
+        return view('admin.pendaftaran.index', compact('kegiatans'));
     }
 
     public function showDetailPendaftar(Pendaftaran $pendaftaran)
@@ -79,6 +79,9 @@ class PendaftaranController extends Controller
                 'akun_instagram' => 'required|string|max:100',
                 'instansi' => 'required|string|max:100',
                 'alasan_mendaftar' => 'required|string|max:255',
+                'member' => $kegiatan->is_member_active
+                    ? 'required|in:sudah member,tidak member,S,M,L,XL,XXL'
+                    : 'nullable',
                 'bukti_follow_tiktok' => 'required|file|image|max:2048',
                 'bukti_follow_instagram' => 'required|file|image|max:2048',
                 'bukti_pembayaran' => 'required|file|mimes:jpeg,jpg,png,pdf|max:2048',
@@ -111,6 +114,7 @@ class PendaftaranController extends Controller
                 'akun_instagram' => $validatedData['akun_instagram'],
                 'instansi' => $validatedData['instansi'],
                 'alasan_mendaftar' => $validatedData['alasan_mendaftar'],
+                'member' => $validatedData['member'] ?? null,
                 'bukti_follow_tiktok' => $path_tiktok,
                 'bukti_follow_instagram' => $path_instagram,
                 'bukti_pembayaran' => $path_pembayaran,

@@ -109,6 +109,7 @@ class KegiatanController extends Controller
                 'status' => ['required', new Enum(StatusPostingan::class)],
                 'link_whatsapp_group' => 'nullable|max:255',
                 'is_open_for_registration' => ['required', new Enum(PendaftaranStatus::class)],
+                'is_member_active' => 'required|boolean',
             ],
             [
                 'batch.unique' => 'Judul batch sudah ada, silakan gunakan batch lain.',

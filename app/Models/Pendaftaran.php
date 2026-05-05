@@ -19,6 +19,7 @@ class Pendaftaran extends Model
         'akun_instagram', 
         'instansi',
         'alasan_mendaftar',
+        'member',
         'bukti_follow_tiktok' ,
         'bukti_follow_instagram', 
         'bukti_pembayaran', 

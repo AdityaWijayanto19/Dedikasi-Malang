@@ -22,7 +22,8 @@ class Kegiatan extends Model
         'link_dokumentasi',
         'status',
         'link_whatsapp_group', 
-        'is_open_for_registration'
+        'is_open_for_registration',
+        'is_member_active',
     ];
 
     protected $casts = [
