@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-5 md:px-10 place-items-center">
+{{-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-5 md:px-10 place-items-center">
     <x-teamCard foto="{{asset($foto)}}" role="{{ str($role) }}" name="{{ strtoupper($name) }}" link="{{ $link }}" />
     <div class=" md:w-full">
         <h1 class="font-bold text-xl/5 md:text-3xl text-center md:text-start text-[#E9C153]">{{ strtoupper($judul) }}</h1>
@@ -12,4 +12,4 @@
         </div>
     </div>
 </div>
-<hr class="border-0.5 border-gray-400 w-full mb-2">
+<hr class="border-0.5 border-gray-400 w-full mb-2"> --}}

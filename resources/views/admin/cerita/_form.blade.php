@@ -35,6 +35,23 @@
             </div>
 
             <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Status Cerita
+            </label>
+
+            <select name="status" class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3">
+
+                <option value=1 {{ old('status', $isEdit ? $cerita->status : 1) == 1 ? 'selected' : '' }}>
+                    Publish
+                </option>
+
+                <option value=0 {{ old('status', $isEdit ? $cerita->status : 1) == 0 ? 'selected' : '' }}>
+                    Draft
+                </option>
+            </select>
+        </div>
+
+            <div>
                 <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-1">
                     Upload Gambar Utama
                     <x-tooltip>
@@ -206,15 +223,15 @@
                 content_css: 'default',
 
                 content_style: `
-                ::selection {
-                    background-color: #FEEA6E !important;
-                    color: #1f2937 !important;
-                }
-                ::-moz-selection {
-                    background-color: #FEEA6E !important;
-                    color: #1f2937 !important;
-                }
-            `,
+                    ::selection {
+                        background-color: #FEEA6E !important;
+                        color: #1f2937 !important;
+                    }
+                    ::-moz-selection {
+                        background-color: #FEEA6E !important;
+                        color: #1f2937 !important;
+                    }
+                `,
 
                 height: 500,
                 autoresize_bottom_margin: 20,

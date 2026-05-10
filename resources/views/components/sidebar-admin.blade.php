@@ -20,7 +20,7 @@
         x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in duration-300"
         x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full"
         :class="open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-        class="fixed lg:static inset-y-0 left-0 w-64 bg-[#142233] text-white transform lg:transform-none transition-transform duration-300 ease-in-out z-40 flex flex-col justify-between min-h-screen overflow-hidden">
+        class="fixed lg:static inset-y-0 left-0 w-64 bg-[#142233] text-white transform lg:transform-none transition-transform duration-300 ease-in-out z-40 flex flex-col items-center justify-between min-h-screen overflow-hidden">
 
         <div class="p-6 flex flex-col flex-grow">
             <div class="flex items-center space-x-2 mb-6">
@@ -92,7 +92,7 @@
         </div>
 
         <div class="p-6 bg-[#142233]">
-            <div class="bg-gray-700 rounded-xl p-4 text-center relative">
+            <div class="bg-gray-700 rounded-xl w-fit p-4 text-center relative">
                 <div class="absolute -top-5 left-1/2 -translate-x-1/2">
                     @if(auth()->user()->avatar)
                         <img class="w-20 h-20 rounded-full object-cover border-4 border-gray-800"
@@ -114,7 +114,7 @@
                 <div class="mt-12">
                     <p class="text-l font-semibold text-white"> {{ auth()->user()->name }}</p>
                     <p class="text-sm text-gray-400 mb-4">{{ auth()->user()->email }}</p>
-                    <a href="#" @click.prevent="profileModalOpen = true"
+                    <a href="{{ route('admin.manage-admin.edit', auth()->user()->id) }}" @click.prevent="profileModalOpen = true"
                         class="block w-full bg-primary-yellow text-gray-800 text-sm font-semibold py-2 rounded-lg transition duration-200 hover:bg-yellow-400 mt-2">
                         Ubah Profil
                     </a>

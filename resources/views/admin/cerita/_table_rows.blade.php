@@ -24,6 +24,11 @@
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
             {{ $item->created_at->isoFormat('D MMM YYYY') }}
         </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+            <span class="px-2 py-1 rounded-full {{ $item->status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                {{ $item->status ? 'Publish' : 'Draft' }}
+            </span>
+        </td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center space-x-2">
             <a href="{{ route('admin.cerita.edit', $item->id) }}"
                 class="p-2 rounded-md bg-yellow-400 hover:bg-yellow-500 transition-colors duration-200">

@@ -56,7 +56,7 @@ class PendaftaranController extends Controller
     public function show(Kegiatan $kegiatan)
     {
         $pendaftarans = Pendaftaran::where('kegiatan_id', $kegiatan->id)
-            ->orderByRaw("FIELD(status, 'pending', 'accepted', 'rejected')")
+            ->orderBy('created_at', 'asc')
             ->paginate(10);
 
         return view('admin.pendaftaran.show', compact('kegiatan', 'pendaftarans'));
@@ -80,7 +80,7 @@ class PendaftaranController extends Controller
                 'instansi' => 'required|string|max:100',
                 'alasan_mendaftar' => 'required|string|max:255',
                 'member' => $kegiatan->is_member_active
-                    ? 'required|in:sudah member,tidak member,S,M,L,XL,XXL'
+                    ? 'required|in:1,0,S,M,L,XL,XXL'
                     : 'nullable',
                 'bukti_follow_tiktok' => 'required|file|image|max:2048',
                 'bukti_follow_instagram' => 'required|file|image|max:2048',
@@ -94,6 +94,28 @@ class PendaftaranController extends Controller
                 'mimes' => 'Bukti pembayaran harus berupa JPEG, JPG, PNG, atau PDF.',
             ]
         );
+
+        $memberInput = $validatedData['member'] ?? 0;
+        $isMember = 0;
+        $size = null;
+
+        if($memberInput){
+            if (in_array($memberInput, ['sudah member', '1', 'true', 'yes'])) {
+                $isMember = 1;
+            } elseif (in_array($memberInput, ['tidak member', '0', 'false', 'no'])) {
+                $isMember = 0;
+            } elseif (in_array($memberInput, ['S', 'M', 'L', 'XL', 'XXL'])) {
+                $isMember = 1;
+                $size = $memberInput;
+            }
+        }
+
+        $biaya = $kegiatan->biaya ?? 0;
+        if($size){
+            $biaya += 90000;
+        }else if($isMember && !$size){
+            $biaya -= 5000;
+        }
 
         $path_tiktok = null;
         $path_instagram = null;
@@ -114,7 +136,9 @@ class PendaftaranController extends Controller
                 'akun_instagram' => $validatedData['akun_instagram'],
                 'instansi' => $validatedData['instansi'],
                 'alasan_mendaftar' => $validatedData['alasan_mendaftar'],
-                'member' => $validatedData['member'] ?? null,
+                'is_member' => $isMember,
+                'size' => $size,
+                'total_bayar' => $biaya,
                 'bukti_follow_tiktok' => $path_tiktok,
                 'bukti_follow_instagram' => $path_instagram,
                 'bukti_pembayaran' => $path_pembayaran,

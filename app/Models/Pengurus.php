@@ -12,5 +12,6 @@ class Pengurus extends Model
         'gambar',
         'periode',
         'link_instagram',
+        'status',
     ];
 }

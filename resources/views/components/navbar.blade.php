@@ -89,14 +89,14 @@
                 </div>
             </li>
 
-            <li class="h-full flex items-center">
+            {{-- <li class="h-full flex items-center">
                 <a href="/kontak" class="relative text-lg font-normal transition-all duration-300
                    {{ request()->is('kontak*') ? 'text-white font-bold' : 'text-gray-800 hover:text-gray-600' }}">
                     Kontak
                     <span
                         class="absolute -bottom-2 left-0 w-full h-1 bg-white rounded-full transition-transform duration-300 {{ request()->is('kontak*') ? 'scale-x-100' : 'scale-x-0' }}"></span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="h-full flex items-center">
                 <a href="/donasi" class="relative text-lg font-normal transition-all duration-300
@@ -187,8 +187,8 @@
             <a href="/cerita"
                 class="block border-l-4 pl-2 {{ request()->is('cerita*') ? 'border-white font-bold text-gray-900' : 'border-transparent' }}">Cerita
                 Dedikasi</a>
-            <a href="/kontak"
-                class="block border-l-4 pl-2 {{ request()->is('kontak*') ? 'border-white font-bold text-gray-900' : 'border-transparent' }}">Kontak</a>
+            {{-- <a href="/kontak"
+                class="block border-l-4 pl-2 {{ request()->is('kontak*') ? 'border-white font-bold text-gray-900' : 'border-transparent' }}">Kontak</a> --}}
             <a href="/donasi"
                 class="block border-l-4 pl-2 {{ request()->is('donasi*') ? 'border-white font-bold text-gray-900' : 'border-transparent' }}">Donasi</a>
         </div>

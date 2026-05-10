@@ -152,14 +152,14 @@
                     <img class="h-50 md:h-70 rounded-2xl" src="{{ asset('images/sizechart.webp') }}" alt="Size Chart">
                     <div class="h-full">
                     <label class="flex items-center gap-2 cursor-pointer mt-3">
-                            <input type="radio" name="member" value="sudah member"
-                                {{ old('member') == 'sudah member' ? 'checked' : '' }}
+                            <input type="radio" name="member" value="1"
+                                {{ old('member') == '1' ? 'checked' : '' }}
                                 class="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-blue-500 checked:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
                             <span>Sudah member</span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer mt-3">
-                            <input type="radio" name="member" value="tidak member"
-                                {{ old('member') == 'tidak member' ? 'checked' : '' }}
+                            <input type="radio" name="member" value="0"
+                                {{ old('member') == '0' ? 'checked' : '' }}
                                 class="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-blue-500 checked:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
                             <span>tidak beli kaos</span>
                         </label>
@@ -230,7 +230,12 @@
                         <div class="bg-blue-50 p-3 rounded-lg border border-blue-100 mb-3 text-sm text-blue-800">
                             <p class="font-bold">BRI: 388301029202539</p>
                             <p>A.N: SHOFIYYAH FITHRI</p>
-                            <p class="text-xs mt-1 text-blue-600">*Format berita: NAMA_DEDIKASIMALANG</p>
+
+                            <p id="totalBiaya" 
+                                class="w-fit font-bold mt-2 px-2 py-1 rounded-full bg-green-200 text-green-600"
+                                data-base="{{ $kegiatan->biaya }}">
+                            Total biaya kontribusi: Rp {{ number_format($kegiatan->biaya, 0, ',', '.') }}
+                            </p>
                         </div>
 
                         <input type="file" id="bukti_pembayaran" name="bukti_pembayaran" accept="image/*, application/pdf"
@@ -258,6 +263,42 @@
     </main>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () { 
+            const radios = document.querySelectorAll('input[name="member"]');
+            const totalText = document.getElementById('totalBiaya');
+
+            if (!totalText) return; 
+
+            const basePrice = parseInt(totalText.dataset.base) || 0; 
+            const tambahanKaos = 90000;
+            const diskonMember = 5000;
+
+            function formatRupiah(number) {
+                return 'Rp ' + number.toLocaleString('id-ID');
+            }
+
+            radios.forEach(radio => {
+                 radio.addEventListener('change', function () {
+                let total = basePrice;
+
+                if (!['0', '1'].includes(this.value)) {
+                    total += tambahanKaos;
+                }else if (this.value === '1') {
+                    total = basePrice - diskonMember;
+                }
+
+                totalText.textContent = 'Total biaya kontribusi: ' + formatRupiah(total);
+            });
+        });
+
+    // 2. BARU TRIGGER EVENT-NYA (jika ada value dari old() session Laravel)
+    const checked = document.querySelector('input[name="member"]:checked');
+    if (checked) {
+        checked.dispatchEvent(new Event('change'));
+    }
+});
+
+
         const fileConfigs = [
             { dropAreaId: 'file-drop-area-tiktok', inputId: 'bukti_follow_tiktok', previewContainerId: 'preview-container-tiktok', imagePreviewId: 'image-preview-tiktok', uploadPromptId: 'upload-prompt-tiktok' },
             { dropAreaId: 'file-drop-area-instagram', inputId: 'bukti_follow_instagram', previewContainerId: 'preview-container-instagram', imagePreviewId: 'image-preview-instagram', uploadPromptId: 'upload-prompt-instagram' },

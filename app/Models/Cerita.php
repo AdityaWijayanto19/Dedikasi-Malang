@@ -13,5 +13,15 @@ class Cerita extends Model
         'slug',
         'nama_penulis',
         'jabatan',
+        'status',
     ];
+
+     protected static function booted()
+    {
+        static::deleting(function ($cerita) {
+            if ($cerita->gambar) {
+                Storage::disk('public')->delete($cerita->gambar);
+            }
+        });
+    }
 }

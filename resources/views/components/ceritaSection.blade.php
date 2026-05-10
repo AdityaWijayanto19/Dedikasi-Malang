@@ -1,3 +1,4 @@
+@props(['cerita'])
 <section class="px-15 md:px-30 mt-5 z-40" id="cerita">
     <div class="flex flex-col justify-center items-center">
         <hr class="border-0.5 border-gray-400 w-full mb-2">
@@ -7,7 +8,7 @@
     <div class="grid grid-cols-1 gap-4 px-5 md:px-10 place-items-center">
         @foreach ($cerita as $item)
             <div class="flex justify-center md:gap-10">
-                <a href="#" target="_blank">
+                <a href="{{ route('pages.cerita.show', $item->slug) }}" target="_blank">
                     <div class="h-45 w-30 md:h-75 md:w-60 bg-cover bg-center flex flex-col justify-end p-4 text-white rounded-md hover:shadow-xl duration-200 cursor-pointer hover:-translate-y-1"
                         style="background-image: url('{{ Str::startsWith($item->gambar, 'http') ? $item->gambar : asset('storage/' . $item->gambar) }}');"
                         alt="$item -> nama_penulis">

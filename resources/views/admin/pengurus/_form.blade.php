@@ -39,10 +39,28 @@
 
                 <div>
                     <label for="judul" class="block text-sm font-medium text-gray-700">Link Instagram</label>
-                    <input type="text" name="link_instagram" id="link_instagram" value="{{ old('link_instagram', $isEdit ? $pengurus->link_instagram : '') }}"
+                    <input type="text" name="link_instagram" id="link_instagram"
+                        value="{{ old('link_instagram', $isEdit ? $pengurus->link_instagram : '') }}"
                         class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3 focus:border-primary-yellow focus:ring focus:ring-primary-yellow/50 transition duration-150"
                         placeholder="Contoh: https://instagram.com/username">
                 </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Status Pengurus
+                </label>
+
+                <select name="status" class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3">
+
+                    <option value=1 {{ old('status', $isEdit ? $pengurus->status : 1) == 1 ? 'selected' : '' }}>
+                        Active
+                    </option>
+
+                    <option value=0 {{ old('status', $isEdit ? $pengurus->status : 1) == 0 ? 'selected' : '' }}>
+                        Purna
+                    </option>
+                </select>
             </div>
 
             <div>

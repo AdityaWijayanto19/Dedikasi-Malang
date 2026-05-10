@@ -20,8 +20,14 @@
             {{ Str::limit($item->lokasi, 12) }}
         </td>
         <td class="px-6 py-4 whitespace-nowrap">
-            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $item->is_member_active ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-800' }}">
+            <span
+                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $item->is_member_active ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-800' }}">
                 {{ $item->is_member_active ? 'Aktif' : 'Tidak Aktif' }}
+            </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+            <span class="font-semibold px-4 py-1 rounded-full {{ $item->kuota - $item->pendaftarans()->count() <= $item->kuota * 0.25 ? 'text-red-600 bg-red-100' : ($item->kuota - $item->pendaftarans()->count() <= $item->kuota * 0.5 ? 'text-yellow-600 bg-yellow-100' : 'text-green-600 bg-green-100') }}">
+                {{ $item->kuota - $item->pendaftarans()->count() }}
             </span>
         </td>
         <td class="px-6 py-4 whitespace-nowrap">
@@ -44,9 +50,9 @@
             </a>
             <form action="{{ route('admin.kegiatan.destroy', $item->id) }}" method="POST" class="inline-block"
                 @click.prevent="$dispatch('open-delete-modal', { action: '{{ route('admin.kegiatan.destroy', $item->id) }}',
-                                        title: 'Hapus Kegiatan',
-                                        message: 'Apakah Anda yakin ingin menghapus kegiatan \'{{ Str::limit($item->batch, 30) }}\'? Data ini tidak dapat dikembalikan.'
-                                    })">
+                                                title: 'Hapus Kegiatan',
+                                                message: 'Apakah Anda yakin ingin menghapus kegiatan \'{{ Str::limit($item->batch, 30) }}\'? Data ini tidak dapat dikembalikan.'
+                                            })">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="p-2 rounded-md bg-red-500 hover:bg-red-600 transition-colors duration-200">

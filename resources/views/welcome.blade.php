@@ -56,8 +56,25 @@
         <section class="flex flex-col justify-center items-center px-15 md:px-30 z-40 mt-5" id="profil">
             <hr class="border-0.5 border-gray-400 w-full mb-5">
             <div class="grid grid-cols-1 place-items-center md:flex gap-5 justify-center items-center">
-                <img class="h-45 md:h-70 hover:-translate-y-0.5 hover:shadow-xl duration-150 rounded-md" loading="lazy"
+                {{-- <a href="https://youtu.be/EFzLMPth_dM?si=5MffJRBM_7JJ1JcI" target="_blank" class="relative group">
+
+                    <img class="h-45 md:h-70 hover:-translate-y-0.5 hover:shadow-xl duration-150 rounded-md"
+                        loading="lazy" src="https://img.youtube.com/vi/EFzLMPth_dM/maxresdefault.jpg"
+                        alt="Video Dedikasi">
+
+                    <!-- icon play -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="bg-black/60 rounded-full p-4 group-hover:scale-110 duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                </a> --}}
+                <img class="h-45 md:h-70 hover:-translate-y-0.5 hover:shadow-xl duration-150 rounded-md"
                     src="/hero/minihero1.png" alt="foto dedikasi">
+
                 <div class="flex flex-col gap-2 justify-center items-center md:justify-start md:items-start">
                     <h2 class="text-xl md:text-4xl font-bold text-[#E9C153]">PROFIL DEDIKASI MALANG</h2>
                     <p class="text-xs md:text-lg text-neutral-600 w-70 md:w-150 text-justify">Dedikasi Malang merupakan

@@ -110,6 +110,8 @@ class KegiatanController extends Controller
                 'link_whatsapp_group' => 'nullable|max:255',
                 'is_open_for_registration' => ['required', new Enum(PendaftaranStatus::class)],
                 'is_member_active' => 'required|boolean',
+                'biaya' => 'required|integer|min:0',
+                'kuota' => 'required|integer|min:0',
             ],
             [
                 'batch.unique' => 'Judul batch sudah ada, silakan gunakan batch lain.',
@@ -118,6 +120,7 @@ class KegiatanController extends Controller
                 'deskripsi.required' => 'Deskripsi kegiatan wajib diisi.',
                 'tanggal.required' => 'Tanggal kegiatan wajib diisi.',
                 'lokasi.required' => 'Lokasi kegiatan wajib diisi.',
+                'kuota.required' => 'Kuota kegiatan wajib diisi.',
             ]
         );
 
@@ -164,6 +167,7 @@ class KegiatanController extends Controller
                 Storage::disk('public')->delete($kegiatan->gambar);
             }
 
+            $kegiatan->pendaftarans()->delete();
             $kegiatan->delete();
 
             return redirect()->route('admin.kegiatan.index')->with('success', 'Data kegiatan berhasil dihapus!');

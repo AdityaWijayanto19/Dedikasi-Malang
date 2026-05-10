@@ -20,7 +20,8 @@
         <div class="lg:col-span-2 bg-white p-8 rounded-lg shadow-xl">
             <h2 class="text-2xl font-bold text-indigo-700 mb-4">{{ $pendaftaran->full_name }}</h2>
             <p class="mb-4 text-sm text-gray-600">Mendaftar untuk Kegiatan:
-                <strong>{{ $pendaftaran->kegiatan->title }}</strong></p>
+                <strong>{{ $pendaftaran->kegiatan->title }}</strong>
+            </p>
 
             <hr class="mb-6">
 
@@ -38,6 +39,15 @@
                         <li><strong>Akun Instagram:</strong> <a
                                 href="https://instagram.com/{{ $pendaftaran->akun_instagram }}" target="_blank"
                                 class="text-blue-500 hover:underline">@<span>{{ $pendaftaran->akun_instagram }}</span></a>
+                        </li>
+                        <li><strong>Member Dedikasi:</strong>
+                            {{ $pendaftaran->is_member ? 'Ya' : 'Tidak' }}</li>
+                        @if($pendaftaran->is_member && $pendaftaran->size)
+                            <li><strong>Size Kaos:</strong> {{ $pendaftaran->size }}</li>
+                        @endif
+                        <li><strong>Total Bayar:</strong>
+                            <span class="text-green-600 font-semibold px-2 py-1 rounded-full bg-green-100">Rp
+                                {{ number_format($pendaftaran->total_bayar, 0, ',', '.') }}</span>
                         </li>
                     </ul>
                 </div>
@@ -70,7 +80,7 @@
                         <p class="font-medium mb-2 text-sm">{{ $label }}</p>
                         @if($fileExists)
                             <button onclick="openImageModal('{{ asset('storage/' . $trimmedPath) }}')"
-                                class="inline-flex items-center text-sm font-semibold text-green-600 hover:text-green-800 cursor-pointer">
+                                class="inline-flex items-center text-sm font-semibold text-green-500 hover:text-green-600 cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="w-5 h-5 mr-1">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -93,9 +103,9 @@
             <h3 class="text-xl font-bold mb-4 border-b pb-2 text-gray-800">Aksi Verifikasi</h3>
 
             <div class="mb-4 p-3 rounded-lg border-2 
-                                            @if ($pendaftaran->status == 'accepted') border-green-400 bg-green-50
-                                            @elseif ($pendaftaran->status == 'rejected') border-red-400 bg-red-50
-                                            @else border-yellow-400 bg-yellow-50 @endif">
+                                                    @if ($pendaftaran->status == 'accepted') border-green-400 bg-green-50
+                                                    @elseif ($pendaftaran->status == 'rejected') border-red-400 bg-red-50
+                                                    @else border-yellow-400 bg-yellow-50 @endif">
                 Status Saat Ini:
                 <span class="font-extrabold text-xl">{{ ucfirst($pendaftaran->status) }}</span>
             </div>
@@ -225,7 +235,7 @@
             Swal.fire({
                 title: 'Hapus Data Pendaftaran?',
                 html: `<p class="text-sm text-gray-600">Data pendaftaran <strong>{{ $pendaftaran->full_name }}</strong> akan dihapus secara permanent.</p>
-                           <p class="text-sm text-red-600 mt-2"><strong>Perhatian:</strong> Semua file bukti juga akan dihapus dan tidak bisa dikembalikan.</p>`,
+                                   <p class="text-sm text-red-600 mt-2"><strong>Perhatian:</strong> Semua file bukti juga akan dihapus dan tidak bisa dikembalikan.</p>`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#dc2626',

@@ -8,7 +8,7 @@
 
 @section('header')
     <div class="px-6 py-3 flex justify-between items-center shadow-sm rounded-lg">
-        <h1 class="text-3xl font-bold text-gray-800">Manajemen Pendaftaran Relawan</h1>
+        <h1 class="text-3xl font-bold text-gray-800">Manajemen Pendaftaran Volunteer</h1>
         <form method="POST" action="{{ route('logout') }}" class="inline">
             @csrf
             <button type="submit"

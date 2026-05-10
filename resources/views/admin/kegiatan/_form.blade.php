@@ -170,6 +170,26 @@
                         </option>
                     </select>
                 </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Biaya Kegiatan
+                    </label>
+
+                    <input type="number" name="biaya" min="0" value="{{ old('biaya', $isEdit ? $kegiatan->biaya : 0) }}"
+                        class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3" placeholder="Contoh: 50000">
+
+                    <p class="text-xs text-gray-500 mt-1">
+                        *Biaya dasar tanpa tambahan kaos
+                    </p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Kuota Kegiatan
+                    </label>
+
+                    <input type="number" name="kuota" min="0" value="{{ old('kuota', $isEdit ? $kegiatan->kuota : 0) }}"
+                        class="block w-full rounded-lg border-gray-300 shadow-sm py-2 px-3" placeholder="Contoh: 30">
+                </div>
             </div>
         </div>
 

@@ -19,10 +19,7 @@ class PengurusController extends Controller
         $pengurus = Pengurus::latest()->paginate(4);
         return view('admin.pengurus.index', compact('pengurus'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
         return view('admin.pengurus.create');
@@ -40,12 +37,14 @@ class PengurusController extends Controller
                 'gambar' => 'required|file|mimes:jpeg,jpg,png,svg|max:2048',
                 'periode' => 'required|max:255',
                 'link_instagram' => 'nullable|max:255',
+                'status' => 'required|in:0,1',
             ],
             [
                 'nama.required' => 'Nama pengurus wajib diisi',
                 'jabatan.required' => 'Jabatan pengurus wajib diisi',
                 'gambar.required' => 'Gambar pengurus wajib diisi',
                 'periode.required' => 'Periode pengurus wajib diisi',
+                'status.required' => 'Status pengurus wajib diisi',
             ]
         );
 
@@ -99,6 +98,7 @@ class PengurusController extends Controller
                 'gambar' => 'nullable|file|mimes:jpeg,jpg,png,svg|max:2048',
                 'periode' => 'required|max:255',
                 'link_instagram' => 'required|max:255',
+                'status' => 'required|in:0,1',
             ],
             [
                 'nama.required' => 'Nama pengurus wajib diisi',

@@ -2,24 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusCerita;
 use App\Models\Cerita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class CeritaController extends Controller
 {
     
     public function publicIndex(){
-         $cerita = Cerita::oldest()
-            ->get();
+         $cerita = Cerita::where('status', StatusCerita::Publish)->latest()->get();
 
-        return view('pages.cerita.index', compact('cerita',));
+        return view('pages.cerita.index', compact('cerita'));
     }
 
     public function publicShow($slug){
          $cerita = Cerita::where('slug', $slug)->firstOrFail();
+
+         if($cerita->status !== StatusCerita::Publish){
+            abort(404);
+         }
 
         return view('pages.cerita.show', compact('cerita'));
     }
@@ -120,6 +125,7 @@ class CeritaController extends Controller
                 'gambar' => 'required|file|mimes:jpeg,jpg,png,svg|max:2048',
                 'nama_penulis' => 'required|max:255',
                 'jabatan' => 'required|max:255',
+                'status' => ['required', new Enum(StatusCerita::class)],
             ],
             [
                 'title.unique' => 'Judul cerita sudah ada, silakan gunakan judul lain.',
@@ -175,6 +181,7 @@ class CeritaController extends Controller
                 'gambar' => 'nullable|file|mimes:jpeg,jpg,png,svg|max:2048',
                 'nama_penulis' => 'required|max:255',
                 'jabatan' => 'required|max:255',
+                'status' => ['required', new Enum(StatusCerita::class)],
             ],
             [
                 'title.unique' => 'Judul cerita sudah ada, silakan gunakan judul lain.',

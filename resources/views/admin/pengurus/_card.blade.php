@@ -33,6 +33,9 @@
                 <h3 class="mt-4 text-lg font-semibold text-gray-800">{{ Str::limit($p->nama, 15) }}</h3>
                 <p class="text-sm text-gray-600">{{ $p->jabatan }}</p>
                 <p class="mt-1 text-xs text-gray-400">Periode {{ $p->periode }}</p>
+                <p class="mt-1 text-sm font-medium px-2 py-1 rounded-full {{ $p->status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                    {{ $p->status ? 'Active' : 'Purna' }}
+                </p>
 
                 <div class="mt-4 flex space-x-2">
                     <a href="{{ route('admin.pengurus.edit', $p->id) }}"

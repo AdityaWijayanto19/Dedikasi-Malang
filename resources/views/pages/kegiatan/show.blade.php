@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $kegiatan -> batch }}</title>
+    <title>{{ $kegiatan->batch }}</title>
     <link rel="shortcut icon" href="{{ asset('images/logo.svg') }}" type="image/x-icon">
 
     <!-- Google Fonts -->
@@ -15,7 +15,7 @@
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-   @vite(['resources/css/app.css', 'resources/js/app.js']) 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <style>
     body {
@@ -35,10 +35,9 @@
 
             <div class="flex relative z-10 text-start text-white justify-center items-center">
                 <img src="{{ asset('logo.png') }}" class="h-24 md:h-64 mx-auto mb-4" alt="Logo Dedikasi Malang">
-                <h1
-                style="text-transform:uppercase"
+                <h1 style="text-transform:uppercase"
                     class="text-4xl md:text-8xl leading-8 md:leading-20 font-extrabold text-shadow-md/40 text-shadow-black/50">
-                    {{  $kegiatan -> batch }}
+                    {{  $kegiatan->batch }}
                 </h1>
             </div>
         </section>
@@ -52,16 +51,27 @@
             <div class="grid grid-cols-1 place-items-center md:flex md:justify-center gap-4">
                 <div
                     class="flex flex-col justify-center items-center h-fit w-60 md:w-100 hover:-translate-y-1 cursor-pointer duration-200">
-                    <img class="h-70 md:h-100 w-fit rounded-md hover:shadow-xl"
+                    <img class="h-70 md:h-120 w-fit rounded-md hover:shadow-xl"
                         src="{{ Str::startsWith($kegiatan->gambar, 'http') ? $kegiatan->gambar : asset('storage/' . $kegiatan->gambar)}}"
                         alt="poster kegiatan">
-                    <h1 class="font-medium text-xl text-neutral-800">{{ $kegiatan -> batch }}</h1>
+                    <h1 class="font-medium text-xl text-neutral-800">{{ $kegiatan->batch }}</h1>
                 </div>
-                <div class="h-fit w-60 md:w-150">
-                    <h1 class="text-center md:text-start text-xl font-bold">{{ $kegiatan -> title }}</h1>
-                    <p class="text-justify mt-5">
-                        {{ $kegiatan -> deskripsi }}
+                <div class="h-fit w-60 md:w-160">
+                    <h1 class="text-center md:text-start text-xl font-bold">{{ $kegiatan->title }}</h1>
+                    <p class="whitespace-pre-line text-justify mt-2">
+                        {{ $kegiatan->deskripsi }}
                     </p>
+                    <div class="mt-2 p-4 w-fit bg-yellow-100/50 rounded-2xl outline-1 outline-yellow-300">
+                        <p class="font-semibold mt-1">📍 Lokasi: <span
+                                class="font-normal">{{ $kegiatan->lokasi }}</span></p>
+                        <p class="font-semibold mt-1">📅 Tanggal: <span
+                                class="font-normal">{{ $kegiatan->tanggal }}</span></p>
+                        <p class="font-semibold mt-1">👥 Kuota: <span class="font-bold">{{ $kegiatan->kuota }}</span>
+                        </p>
+                        <p class="font-semibold mt-1">💵 Biaya Kontribusi: <span
+                                class="px-2 py-1 rounded-full bg-green-100 font-normal text-green-500">Rp.
+                                {{ number_format($kegiatan->biaya, 0, ',', '.') }}</span></p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -72,10 +82,22 @@
                     class="flex justify-center p-1 w-full text-white text-shadow-md font-semibold text-sm md:text-lg bg-[#FFE26F] rounded-sm hover:bg-[#ffdb49] hover:shadow-md hover:scale-101 duration-200">GUIDE
                     BOOK
                 </a>
-                <a href="{{ route('pages.pendaftaran.create', $kegiatan) }}" target="_blank"
-                    class="flex justify-center p-1 w-full text-white text-shadow-md font-semibold text-sm md:text-lg bg-[#FFE26F] rounded-sm hover:bg-[#ffdb49] hover:shadow-md hover:scale-101 duration-200">DAFTAR
-                    SEKARANG
-                </a>
+                @if($kegiatan->kuota - $kegiatan->pendaftarans()->count() <= 0)
+                    <button disabled
+                        class="flex justify-center p-1 w-full text-white text-shadow-md font-semibold text-sm md:text-lg bg-gray-400 rounded-sm cursor-not-allowed">
+                        KUOTA PENUH
+                    </button>
+                @elseif($kegiatan->is_open_for_registration == \App\Enums\PendaftaranStatus::Buka)
+                    <a href="{{ route('pages.pendaftaran.create', $kegiatan) }}" target="_blank"
+                        class="flex justify-center p-1 w-full text-white text-shadow-md font-semibold text-sm md:text-lg bg-[#FFE26F] rounded-sm hover:bg-[#ffdb49] hover:shadow-md hover:scale-101 duration-200">DAFTAR
+                        SEKARANG
+                    </a>
+                @else
+                    <button disabled
+                        class="flex justify-center p-1 w-full text-white text-shadow-md font-semibold text-sm md:text-lg bg-gray-400 rounded-sm cursor-not-allowed">
+                        PENDAFTARAN TUTUP
+                    </button>
+                @endif
             </div>
         </section>
         <x-persyaratan />
@@ -96,15 +118,17 @@
                 <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
             </div>
             <p class="mb-4 text-sm text-gray-600">
-                Masukkan <strong>Nomor HP/WA</strong> yang Anda gunakan saat mendaftar pada kegiatan <strong>{{ strtoupper($kegiatan->batch) }}</strong>.
+                Masukkan <strong>Nomor HP/WA</strong> yang Anda gunakan saat mendaftar pada kegiatan
+                <strong>{{ strtoupper($kegiatan->batch) }}</strong>.
             </p>
 
             <form id="checkStatusForm" action="{{ route('pendaftaran.status.check', $kegiatan) }}" method="POST">
                 @csrf
 
                 <div class="mb-4">
-                    <label for="phone_number_input" class="block text-sm font-medium text-gray-700 mb-1">Nomor HP/WA</label>
-                    
+                    <label for="phone_number_input" class="block text-sm font-medium text-gray-700 mb-1">Nomor
+                        HP/WA</label>
+
                     <input type="text" name="phone_number" id="phone_number_input" placeholder="Contoh: 08123456789"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E9C153]">
 
@@ -136,7 +160,7 @@
                 checkStatusBtn.addEventListener('click', () => {
                     statusModal.classList.remove('hidden');
                     statusModal.classList.add('flex');
-                    document.body.style.overflow = 'hidden'; 
+                    document.body.style.overflow = 'hidden';
                     phoneInput.focus();
                 });
             }
@@ -156,7 +180,7 @@
                     }
                 });
             }
-            
+
             @if ($errors->has('phone_number') || session('error'))
                 if (statusModal) {
                     statusModal.classList.remove('hidden');
@@ -165,6 +189,7 @@
                 }
             @endif
         });
-    </script></body>
+    </script>
+</body>
 
 </html>
