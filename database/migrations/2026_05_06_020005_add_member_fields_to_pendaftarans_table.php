@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pendaftarans', function (Blueprint $table) {
-            $table->boolean('is_member')->default(false)->after('member');
+            $table->boolean('is_member')->default(false);
             $table->string('size')->nullable()->after('is_member');
             $table->integer('total_bayar')->default(0)->after('size');
         });
